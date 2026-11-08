@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="430" viewBox="0 0 1400 430" role="img" aria-labelledby="title desc">
+<title id="title">BolKeResolve case workflow</title>
+<desc id="desc">Tell your story, add and review evidence, receive a practical next step, and export a structured case record.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#f8f5ed"/><stop offset="1" stop-color="#edf5ed"/></linearGradient>
+  <linearGradient id="mint" x1="0" x2="1"><stop stop-color="#65e0c4"/><stop offset="1" stop-color="#b4f0d8"/></linearGradient>
+  <filter id="shadow" x="-15%" y="-20%" width="130%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#123a33" flood-opacity=".09"/></filter>
+</defs>
+<rect width="1400" height="430" rx="28" fill="url(#bg)"/>
+<text x="70" y="66" fill="#168b78" font-family="Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="3">ONE CASE. A CLEARER NEXT STEP.</text>
+<text x="70" y="105" fill="#103b35" font-family="Georgia,serif" font-size="29">From a confusing payment issue to an organised case record.</text>
+<g filter="url(#shadow)">
+  <rect x="60" y="145" width="285" height="215" rx="22" fill="#fffefa" stroke="#dce5d9"/>
+  <rect x="385" y="145" width="285" height="215" rx="22" fill="#fffefa" stroke="#dce5d9"/>
+  <rect x="710" y="145" width="285" height="215" rx="22" fill="#fffefa" stroke="#dce5d9"/>
+  <rect x="1035" y="145" width="305" height="215" rx="22" fill="#fffefa" stroke="#dce5d9"/>
+</g>
+<g font-family="Arial,sans-serif">
+  <g><circle cx="100" cy="188" r="20" fill="#e4f4eb"/><text x="100" y="194" text-anchor="middle" font-size="15" font-weight="700" fill="#087d6a">01</text><text x="88" y="238" fill="#103b35" font-size="22" font-weight="700">Tell your story</text><text x="88" y="270" fill="#61766f" font-size="15">Speak or type in your</text><text x="88" y="292" fill="#61766f" font-size="15">own words.</text><text x="88" y="333" fill="#168b78" font-size="12" font-weight="700">VOICE · CHAT · INTAKE</text></g>
+  <g><circle cx="425" cy="188" r="20" fill="#e4f4eb"/><text x="425" y="194" text-anchor="middle" font-size="15" font-weight="700" fill="#087d6a">02</text><text x="413" y="238" fill="#103b35" font-size="22" font-weight="700">Add evidence</text><text x="413" y="270" fill="#61766f" font-size="15">Attach receipts, screenshots</text><text x="413" y="292" fill="#61766f" font-size="15">and support messages.</text><text x="413" y="333" fill="#168b78" font-size="12" font-weight="700">ORIGINALS STAY PRESERVED</text></g>
+  <g><circle cx="750" cy="188" r="20" fill="#e4f4eb"/><text x="750" y="194" text-anchor="middle" font-size="15" font-weight="700" fill="#087d6a">03</text><text x="738" y="238" fill="#103b35" font-size="22" font-weight="700">Review next step</text><text x="738" y="270" fill="#61766f" font-size="15">Check the facts and follow</text><text x="738" y="292" fill="#61766f" font-size="15">a practical, sourced route.</text><text x="738" y="333" fill="#168b78" font-size="12" font-weight="700">USER REVIEWS THE DETAILS</text></g>
+  <g><circle cx="1075" cy="188" r="20" fill="#e4f4eb"/><text x="1075" y="194" text-anchor="middle" font-size="15" font-weight="700" fill="#087d6a">04</text><text x="1063" y="238" fill="#103b35" font-size="22" font-weight="700">Keep your record</text><text x="1063" y="270" fill="#61766f" font-size="15">Follow activity and export</text><text x="1063" y="292" fill="#61766f" font-size="15">a portable case dossier.</text><text x="1063" y="333" fill="#168b78" font-size="12" font-weight="700">TIMELINE · PDF · ZIP</text></g>
+</g>
+<g fill="none" stroke="#36aa91" stroke-width="3" stroke-linecap="round"><path d="M350 252 H374"/><path d="M675 252 H699"/><path d="M1000 252 H1024"/></g>
+<g fill="#36aa91"><path d="M370 245 l10 7 -10 7"/><path d="M695 245 l10 7 -10 7"/><path d="M1020 245 l10 7 -10 7"/></g>
+<text x="70" y="402" fill="#72857e" font-family="Arial,sans-serif" font-size="13">A user-controlled assistant — not a bank verifier, merchant agent or automated complaint filer.</text>
+</svg>
