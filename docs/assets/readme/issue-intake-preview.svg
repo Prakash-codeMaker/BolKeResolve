@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#f8f5ed"/><stop offset="1" stop-color="#eef4ec"/></linearGradient><filter id="s" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#123a33" flood-opacity=".08"/></filter></defs>
+<rect width="1200" height="690" rx="28" fill="url(#bg)"/>
+<rect x="30" y="25" width="1140" height="70" rx="18" fill="#fffefa" stroke="#e6e2d7"/>
+<rect x="58" y="41" width="40" height="40" rx="12" fill="#06483f"/><text x="78" y="70" text-anchor="middle" font-family="Arial" font-size="27" font-weight="700" fill="#6ce4c5">b</text>
+<text x="112" y="69" font-family="Arial" font-size="23" font-weight="700" fill="#163e38">BolKe<tspan font-weight="400" fill="#60766e">Resolve</tspan></text>
+<g font-family="Arial" font-size="15" fill="#49645c"><text x="600" y="67">Home</text><text x="690" y="67">How it works</text><text x="830" y="67" fill="#067b68" font-weight="700">Live resolution</text><text x="980" y="67">Guided chat</text></g>
+<text x="75" y="155" font-family="Arial" font-size="14" font-weight="700" letter-spacing="3" fill="#168f79">START WITH THE PROBLEM</text>
+<text x="75" y="218" font-family="Georgia,serif" font-size="55" fill="#123b35">What happened?</text>
+<text x="75" y="258" font-family="Arial" font-size="18" fill="#70827b">Choose a common issue or simply tell your story.</text>
+<g filter="url(#s)">
+<rect x="75" y="305" width="325" height="180" rx="22" fill="#fffefa" stroke="#e4e0d5"/>
+<rect x="435" y="305" width="325" height="180" rx="22" fill="#fffefa" stroke="#e4e0d5"/>
+<rect x="795" y="305" width="325" height="180" rx="22" fill="#fffefa" stroke="#e4e0d5"/>
+</g>
+<g font-family="Arial">
+<circle cx="120" cy="365" r="25" fill="#e0f5ec"/><path d="M120 350v16l11 7" stroke="#088a74" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="120" cy="365" r="14" stroke="#088a74" stroke-width="2" fill="none"/>
+<text x="165" y="360" font-size="21" font-weight="700" fill="#173f38">Refund hasn’t arrived</text><text x="165" y="392" font-size="16" fill="#75847c">A refund is late or missing</text>
+<circle cx="480" cy="365" r="25" fill="#e0f5ec"/><path d="M484 344l-15 24h12l-4 19 17-26h-12z" fill="#078975"/>
+<text x="525" y="360" font-size="21" font-weight="700" fill="#173f38">Payment failed</text><text x="525" y="392" font-size="16" fill="#75847c">Money may have been debited</text>
+<circle cx="840" cy="365" r="25" fill="#fff0d9"/><path d="M840 346l15 6v11c0 10-7 16-15 20-8-4-15-10-15-20v-11z" fill="none" stroke="#b66a24" stroke-width="2.5"/><text x="840" y="370" text-anchor="middle" font-size="15" font-weight="700" fill="#b66a24">!</text>
+<text x="885" y="360" font-size="21" font-weight="700" fill="#173f38">Unrecognised payment</text><text x="885" y="392" font-size="16" fill="#75847c">Something doesn’t look right</text>
+</g>
+<rect x="75" y="515" width="1045" height="76" rx="18" fill="#fffefa" stroke="#e4e0d5"/>
+<text x="100" y="547" font-family="Arial" font-size="18" font-weight="700" fill="#244d43">Another payment issue?</text><text x="100" y="573" font-family="Arial" font-size="15" fill="#74857d">Pending transfer, duplicate charge, wrong amount, missing order or something else</text><circle cx="1080" cy="553" r="18" fill="#e3f4ea"/><path d="M1080 544v18m-9-9h18" stroke="#078975" stroke-width="2" stroke-linecap="round"/>
+<text x="75" y="640" font-family="Arial" font-size="14" fill="#87938c">Illustrative interface preview · Sample issue categories</text>
+</svg>
