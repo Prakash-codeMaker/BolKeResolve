@@ -1,0 +1,93 @@
+# Production-oriented Render Blueprint. A persistent disk requires a paid web-service plan.
+# Do not switch this to a free instance for real user cases: free filesystems are ephemeral.
+services:
+  - type: web
+    name: bolkeresolve
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    disk:
+      name: bolkeresolve-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: BOLKE_ENV
+        value: production
+      - key: BOLKE_ACCOUNTS_ENABLED
+        value: "true"
+      - key: BOLKE_AUTH_REQUIRED
+        value: "true"
+      - key: BOLKE_EMAIL_VERIFICATION_REQUIRED
+        value: "true"
+      - key: BOLKE_COOKIE_SECURE
+        value: "true"
+      - key: BOLKE_DATA_DIR
+        value: /var/data
+      - key: BOLKE_PUBLIC_ORIGIN
+        sync: false
+      - key: BOLKE_ALLOWED_ORIGINS
+        sync: false
+      - key: BOLKE_PRIVACY_POLICY_URL
+        sync: false
+      - key: BOLKE_SUPPORT_EMAIL
+        sync: false
+      - key: BOLKE_SUPPORT_URL
+        sync: false
+      - key: BOLKE_SMTP_HOST
+        sync: false
+      - key: BOLKE_SMTP_PORT
+        value: "587"
+      - key: BOLKE_SMTP_USERNAME
+        sync: false
+      - key: BOLKE_SMTP_PASSWORD
+        sync: false
+      - key: BOLKE_SMTP_FROM
+        sync: false
+      - key: BOLKE_SMTP_USE_STARTTLS
+        value: "true"
+      - key: BOLKE_SMTP_USE_SSL
+        value: "false"
+      - key: GNANI_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: BOLKE_PUBLIC_VOICE_ENABLED
+        value: "false"
+      - key: BOLKE_SHARE_INTAKE_ENCRYPTION_KEY
+        sync: false
+      - key: WHATSAPP_BUSINESS_NUMBER
+        sync: false
+      - key: WHATSAPP_ACCESS_TOKEN
+        sync: false
+      - key: WHATSAPP_PHONE_NUMBER_ID
+        sync: false
+      - key: WHATSAPP_APP_SECRET
+        sync: false
+      - key: WHATSAPP_VERIFY_TOKEN
+        sync: false
+      - key: WHATSAPP_PHONE_ENCRYPTION_KEY
+        sync: false
+      - key: WHATSAPP_GRAPH_API_VERSION
+        value: v26.0
+      - key: WHATSAPP_WEBHOOK_LEASE_SECONDS
+        value: "180"
+      - key: WHATSAPP_REMINDER_TEMPLATE_NAME
+        sync: false
+      - key: WHATSAPP_REMINDER_TEMPLATE_LANGUAGE
+        value: en_US
+      - key: BOLKE_INBOUND_EMAIL_DOMAIN
+        sync: false
+      - key: BOLKE_INBOUND_EMAIL_ENCRYPTION_KEY
+        sync: false
+      - key: BOLKE_INBOUND_WEBHOOK_TOKEN
+        sync: false
+      - key: BOLKE_INBOUND_WEBHOOK_USERNAME
+        sync: false
+      - key: BOLKE_INBOUND_WEBHOOK_PASSWORD
+        sync: false
+      - key: BOLKE_INBOUND_EMAIL_RETENTION_DAYS
+        value: "14"
+      - key: BOLKE_TIMEZONE
+        value: Asia/Kolkata

@@ -1,0 +1,29 @@
+BolKeResolve release-readiness preflight
+No secret values are displayed. This is a config check, not a security certification.
+
+[PASS] Environment: BOLKE_ENV is development.
+[WARN] HTTPS public origin: BOLKE_PUBLIC_ORIGIN must be a bare HTTPS origin (for example https://your-domain.example), without a path, query, or fragment.
+[WARN] Authentication: Local-style mode allows cases without user authentication; do not expose this instance publicly.
+[WARN] Published privacy notice URL: Configure a real public HTTPS privacy notice.
+[WARN] Bundled privacy notice content: The bundled privacy notice still contains operator placeholders or a draft banner.
+[WARN] Monitored support route: Configure a monitored support email or a real HTTPS support page.
+[PASS] Data directory: Directory does not exist yet, but its parent is writable; the app creates it on startup.
+
+Messaging provider status
+[INFO] Core case intake, source-backed guidance, outcome capture and passport exports do not require WhatsApp, Meta or Twilio credentials.
+[WARN] Meta Cloud API configuration: Optional: WhatsApp isn't needed to use the core web product; Meta variables are incomplete.
+[WARN] Email verification and password recovery: Not implemented in this release. Define a safe recovery process before opening public registration broadly.
+
+Optional Case Inbox Bridge
+[PASS] Inbound email configuration: Automatic forwarding is not configured and stays disabled; the case panel still supports manual paste-and-review without a provider.
+
+Operator verification still required
+[CHECK] Confirm the configured data directory is backed by persistent storage; filesystem presence alone cannot prove persistence.
+[CHECK] Verify TLS, reverse-proxy forwarding, DNS, logs, backups and a successful restore on the deployment host.
+[CHECK] Complete mobile/accessibility QA, upload malware-scanning strategy, security review and privacy/legal review.
+[CHECK] Run a synthetic end-to-end case: story → fact review → case save → outcome → export → delete case and account.
+[CHECK] Confirm backups and third-party providers have documented retention periods; self-service deletion cannot recall exported copies or external provider data.
+
+Preflight passed its configured required checks. This does not mean the service is ready for production without the operator checks above.
+
+Manual email reply fallback: Available in the Case Inbox Bridge panel. Paste a reply, preview its interpretation and confirm only the short summary. This does not turn on external email receiving.

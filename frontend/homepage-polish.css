@@ -1,0 +1,217 @@
+/* BolKeResolve homepage and consent corrective pass — 4 November 2026.
+   The product's existing warm-ivory / deep-green identity is retained, with
+   a clearer photo-led hero and a stronger visual anchor for issue selection. */
+
+/* Make the unavailable state authoritative even against old display:grid!important rules. */
+.live-room-ai-consent-card .live-room-ai-option label.live-room-ai-consent[hidden] {
+  display: none !important;
+}
+.live-room-ai-consent-card .live-room-ai-option .live-room-option-unavailable[hidden] {
+  display: none !important;
+}
+.live-room-ai-consent-card .live-room-ai-option[data-available="false"] label.live-room-ai-consent {
+  display: none !important;
+}
+.live-room-ai-consent-card .live-room-ai-option[data-available="true"] .live-room-option-unavailable {
+  display: none !important;
+}
+.live-room-ai-consent-card .live-room-ai-option .live-room-option-unavailable {
+  display: grid;
+  gap: 5px;
+  margin: 5px 0 8px;
+  padding: 12px 14px;
+  border: 1px solid #e1e8df;
+  border-radius: 12px;
+  background: #eef4ec;
+  color: #60756b;
+  font-size: 11px;
+  line-height: 1.55;
+}
+.live-room-ai-consent-card .live-room-ai-option .live-room-option-unavailable b {
+  color: #174f40;
+  font-size: 12px;
+}
+
+/* The home hero now uses more of a wide desktop canvas and gives photography a
+   clearer editorial frame. The original real-photo cross-fade remains intact. */
+.hero.wrap {
+  width: min(1360px, calc(100% - 64px));
+}
+.hero {
+  grid-template-columns: minmax(0, .91fr) minmax(0, 1.09fr);
+  gap: clamp(38px, 5.2vw, 86px);
+  min-height: 640px;
+  padding-top: clamp(62px, 6vw, 88px);
+  padding-bottom: clamp(68px, 6vw, 92px);
+}
+.hero-copy { max-width: 610px; }
+.hero h1 {
+  max-width: 11ch;
+  font-size: clamp(58px, 6vw, 86px);
+  line-height: .96;
+  letter-spacing: -.055em;
+  margin: 21px 0 25px;
+}
+.hero-lede {
+  max-width: 490px;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.82;
+}
+.hero-trust {
+  gap: 12px 18px;
+  margin-top: 30px;
+  font-size: 10px;
+}
+.hero-visual {
+  height: clamp(410px, 38vw, 560px);
+  margin: 0;
+  isolation: isolate;
+}
+.hero-photo {
+  border-radius: 34px 34px 104px 34px;
+  box-shadow: 0 32px 90px rgba(10, 47, 39, .18);
+}
+.hero-photo-slide>img {
+  object-position: center 44%;
+  filter: saturate(.95) contrast(1.015);
+}
+.hero-photo-slide figcaption {
+  right: 23px;
+  bottom: 77px;
+  left: 23px;
+  padding: 15px 17px;
+  border-radius: 17px;
+}
+.hero-photo-slide figcaption>b { font-size: 14px; }
+.hero-photo-slide figcaption>small { font-size: 10px; }
+.hero-photo-pause { top: 19px; right: 19px; }
+.hero-outcome-card {
+  left: 22px;
+  bottom: 18px;
+  width: min(360px, calc(100% - 44px));
+  padding: 15px 17px;
+  border-radius: 17px;
+}
+.hero-proof-chip { top: 25px; right: -12px; }
+
+/* Issue picker: a distinct deep-green section makes the next action obvious.
+   The cards retain high contrast and familiar tap targets. */
+.home-issue-picker.wrap {
+  width: min(1360px, calc(100% - 64px));
+  margin: 0 auto;
+  padding: clamp(34px, 4.8vw, 66px);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 32px;
+  background:
+    radial-gradient(ellipse at 92% 5%, rgba(105,228,196,.16), transparent 34%),
+    radial-gradient(ellipse at 0% 100%, rgba(105,228,196,.10), transparent 33%),
+    linear-gradient(132deg, #0a3d35 0%, #104d41 58%, #0b3b34 100%);
+  box-shadow: 0 28px 72px rgba(8,54,43,.14);
+  color: #fffdf7;
+}
+.home-issue-picker .home-section-heading { margin-bottom: 30px; }
+.home-issue-picker .eyebrow { color: #b3d7c8; }
+.home-issue-picker .eyebrow-line { background: #68e1bd; }
+.home-issue-picker .home-section-heading h2 {
+  color: #fffdf7;
+  font-size: clamp(40px, 4.8vw, 60px);
+  letter-spacing: -.045em;
+}
+.home-issue-picker .home-section-heading>p {
+  color: rgba(239,248,241,.78);
+  font-size: 14px;
+}
+.home-issue-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.home-issue-card {
+  min-height: 126px;
+  grid-template-columns: 52px minmax(0,1fr) 18px;
+  gap: 15px;
+  padding: 20px 21px;
+  border: 1px solid rgba(12,61,49,.08);
+  border-radius: 18px;
+  background: #fffdf7;
+  box-shadow: 0 10px 28px rgba(0,25,20,.11);
+  color: #173b32;
+  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+}
+.home-issue-card:hover {
+  transform: translateY(-4px);
+  border-color: #7ed8b8;
+  box-shadow: 0 18px 38px rgba(0,24,19,.19);
+}
+.home-issue-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  background: #e1f5e9;
+  color: #08745d;
+}
+.home-issue-icon-alert { background: #fff0dc; color: #a65e16; }
+.home-issue-card b { color: #173b32; font-size: 14px; }
+.home-issue-card small { color: #74827a; font-size: 11px; }
+.home-issue-arrow { color: #8b9b91; transition: transform .2s ease, color .2s ease; }
+.home-issue-card:hover .home-issue-arrow { transform: translate(3px,-3px); color: #08745d; }
+.home-issue-more {
+  margin-top: 15px;
+  border-color: rgba(227,247,235,.25);
+  border-radius: 17px;
+  background: rgba(255,255,255,.075);
+}
+.home-issue-more>summary { min-height: 76px; padding: 16px 19px; color: #fffdf7; }
+.home-issue-more>summary b { color: #fffdf7; font-size: 13px; }
+.home-issue-more>summary small { color: rgba(238,248,240,.7); font-size: 11px; }
+.home-issue-more-toggle { background: #d8f5e7; color: #0a5141; }
+.home-issue-secondary-grid { padding: 3px 15px 16px; gap: 10px; }
+.home-issue-secondary-grid .home-issue-card { min-height: 88px; }
+.home-issue-footnote {
+  margin: 17px 0 0;
+  color: rgba(238,248,240,.72);
+  font-size: 11px;
+}
+.home-how {
+  width: min(1360px, calc(100% - 64px));
+  padding-top: clamp(68px, 7vw, 94px);
+}
+.home-how .home-section-heading h2 { max-width: 13ch; }
+.home-how-card-visual {
+  border-radius: 24px;
+  box-shadow: 0 13px 35px rgba(21,55,43,.06);
+}
+.home-how-image { height: clamp(230px, 22vw, 320px); }
+.home-how-image img { transition: transform .8s cubic-bezier(.2,.75,.2,1), filter .8s ease; }
+.home-how-card-visual:hover .home-how-image img { transform: scale(1.055); filter: saturate(1.08); }
+
+@media (max-width: 1080px) {
+  .hero.wrap, .home-issue-picker.wrap, .home-how { width: min(100% - 44px, 920px); }
+  .hero { min-height: 0; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 34px; }
+  .hero h1 { font-size: clamp(52px, 6.2vw, 70px); }
+  .hero-visual { height: clamp(360px, 43vw, 470px); }
+  .hero-proof-chip { right: -6px; }
+}
+@media (max-width: 760px) {
+  .hero.wrap, .home-issue-picker.wrap, .home-how { width: calc(100% - 30px); }
+  .hero { grid-template-columns: minmax(0,1fr); gap: 28px; padding-top: 39px; padding-bottom: 48px; }
+  .hero h1 { max-width: 12ch; font-size: clamp(49px, 12vw, 66px); }
+  .hero-visual { height: clamp(300px, 82vw, 390px); margin-inline: 5px; }
+  .hero-photo { border-radius: 24px 24px 68px 24px; }
+  .hero-proof-chip { right: 0; top: 12px; }
+  .home-issue-picker.wrap { padding: 27px 19px 24px; border-radius: 23px; }
+  .home-issue-picker .home-section-heading { grid-template-columns: minmax(0,1fr); gap: 11px; }
+  .home-issue-picker .home-section-heading h2 { font-size: clamp(38px, 10vw, 48px); }
+  .home-issue-grid { grid-template-columns: minmax(0,1fr); gap: 9px; }
+  .home-issue-card { min-height: 82px; padding: 13px 14px; grid-template-columns: 43px minmax(0,1fr) 16px; }
+  .home-issue-icon { width: 42px; height: 42px; }
+  .home-issue-card b { font-size: 12px; }
+  .home-issue-card small { font-size: 10px; }
+  .home-issue-more>summary { min-height: 67px; padding: 13px; }
+  .home-issue-secondary-grid { grid-template-columns: minmax(0,1fr); }
+  .home-how { padding-top: 53px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-issue-card, .home-how-image img { transition: none !important; }
+  .home-issue-card:hover, .home-how-card-visual:hover .home-how-image img { transform: none !important; }
+}

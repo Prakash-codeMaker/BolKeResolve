@@ -1,0 +1,25 @@
+# Python environments and bytecode
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+
+# Runtime data and local secrets
+.env
+.env.*.local
+runtime/
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+
+# Build output and local artifacts
+dist/
+build/
+node_modules/
+
+# Local encryption keys must never be committed or included in source archives
+.share-intake.key
+*.key

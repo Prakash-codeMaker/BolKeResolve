@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#083e37">
+  <script src="/share-token.js"></script>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/bolkeresolve-icon-192.png">
+  <link rel="apple-touch-icon" href="/assets/bolkeresolve-icon-192.png">
+  <meta name="description" content="Build a Resolution Passport for a payment or consumer issue: reviewed facts, official guidance, evidence, a message you control, follow-up and a portable case record.">
+  <title>BolKeResolve — Resolution Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/design-v2.css">
+  <link rel="stylesheet" href="/live-room.css">
+  <link rel="stylesheet" href="/product-foundation.css">
+  <link rel="stylesheet" href="/blueprint-upgrade.css">
+  <link rel="stylesheet" href="/experience-refresh.css">
+  <link rel="stylesheet" href="/homepage-polish.css">
+</head>
+<body>
+  <section id="authGate" class="auth-gate" hidden aria-labelledby="authHeading" aria-describedby="authIntro" aria-modal="true" role="dialog" tabindex="-1">
+    <div class="auth-gate-shell">
+      <aside class="auth-gate-visual" aria-label="A simple three-step case journey">
+        <img src="https://images.pexels.com/photos/4307872/pexels-photo-4307872.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200" data-fallback="/assets/hero-fallback.jpg" alt="People reviewing information together on a smartphone">
+        <div class="auth-gate-visual-shade"></div>
+        <div class="auth-gate-visual-copy"><span>YOUR CASE, IN ONE PLACE</span><h2>From a confusing moment to a clearer next step.</h2><ol><li><b>01</b> Tell your story</li><li><b>02</b> Keep your evidence</li><li><b>03</b> Track what happens next</li></ol><small>Illustrative photography. People shown are not BolKeResolve customers or endorsers.</small></div>
+      </aside>
+      <div class="auth-gate-card">
+        <div class="auth-gate-card-top"><a class="brand auth-brand" href="#home" data-view="home" aria-label="BolKeResolve"><span class="brand-logo">b<span>↗</span></span><span>BolKe<span class="brand-light">Resolve</span></span></a><button id="authGateCloseButton" class="auth-gate-close" type="button" hidden>Continue as guest</button></div>
+        <div class="auth-eyebrow"><span></span> YOUR PAYMENT STORY, YOUR SPACE</div>
+        <h1 id="authHeading">Welcome back.</h1>
+        <p id="authIntro">Sign in to keep your cases, evidence and next steps private.</p>
+        <form id="authForm" novalidate>
+          <label class="auth-field"><span>Email address</span><input id="authEmail" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com"></label>
+          <label class="auth-field"><span>Password</span><input id="authPassword" type="password" autocomplete="current-password" minlength="12" maxlength="128" required placeholder="At least 12 characters"></label>
+          <p id="authPasswordHint" class="auth-password-hint">Use a password with at least 12 characters. We never ask for your banking PIN or OTP.</p>
+          <div id="authError" class="auth-error" role="alert" hidden></div>
+          <button id="authSubmit" class="button button-mint auth-submit" type="submit">Sign in <span>↗</span></button>
+          <button id="authModeToggle" class="auth-switch" type="button">New here? Create an account</button>
+          <button id="authForgotPassword" class="auth-switch" type="button">Forgot password?</button>
+          <p id="authVerificationNotice" class="auth-verification-notice" role="status" aria-live="polite" hidden></p>
+          <button id="authResendVerification" class="auth-switch" type="button" hidden>Resend verification email</button>
+        </form>
+        <div class="auth-gate-foot"><span>◈</span><span>Your cases are kept separate by account. Never use a password you use for your bank, and never share an OTP or UPI PIN.</span></div>
+      </div>
+    </div>
+  </section>
+  <header class="site-header">
+    <a class="brand" href="#home" data-view="home" aria-label="BolKeResolve homepage"><span class="brand-logo">b<span>↗</span></span><span>BolKe<span class="brand-light">Resolve</span></span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-link active" data-view="home">Home</button>
+      <button class="nav-link" data-scroll="howItWorks">How it works</button>
+      <button class="nav-link nav-live-link" data-view="liveRoom">Live resolution</button>
+      <button class="nav-link nav-whatsapp-link" data-view="whatsapp">Guided chat</button>
+      <button class="nav-link" data-view="cases">My cases <span id="navCaseCount" class="nav-count">0</span></button>
+    </nav>
+    <div class="header-right"><button class="button button-outline button-sm" id="installAppButton" type="button" hidden>Install app ↗</button><span id="signedInLabel" class="signed-in-label" hidden></span><button class="button button-outline button-sm account-access-button" id="accountAccessButton" type="button" hidden>Sign in / Sign up</button><button class="button button-outline button-sm" id="accountSecurityButton" type="button" hidden>Account</button><button class="auth-logout" id="logoutButton" type="button" hidden>Sign out</button><button class="button button-dark button-sm header-start-button" data-view="liveRoom">Start live <span>↗</span></button><button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation">☰</button></div>
+  </header>
+
+  <dialog id="accountSecurityDialog" class="blueprint-dialog" aria-labelledby="accountSecurityTitle">
+    <form method="dialog" class="blueprint-dialog-close-row"><button class="dialog-close" aria-label="Close account security">×</button></form>
+    <div class="blueprint-dialog-content"><span class="live-room-kicker">YOUR PRIVATE ACCOUNT</span><h2 id="accountSecurityTitle">Account security</h2><p class="blueprint-dialog-lede">Review the sessions signed in to your account and update your password.</p>
+      <section class="security-session-panel"><div class="blueprint-dialog-section-head"><b>Active sessions</b><button id="refreshAccountSessionsButton" type="button" class="button button-quiet button-sm">Refresh</button></div><div id="accountSessionsList" class="account-sessions-list"><p>Load your active sessions to review them.</p></div><button id="revokeOtherSessionsButton" type="button" class="button button-outline button-sm">Sign out other sessions</button></section>
+      <form id="changePasswordForm" class="blueprint-password-form"><b>Change password</b><label>Current password<input id="currentAccountPassword" type="password" autocomplete="current-password" required></label><label>New password<input id="newAccountPassword" type="password" autocomplete="new-password" minlength="12" maxlength="128" required><small>Use at least 12 characters. Do not reuse your banking password.</small></label><label>Confirm new password<input id="confirmAccountPassword" type="password" autocomplete="new-password" minlength="12" maxlength="128" required></label><div id="accountSecurityFeedback" class="blueprint-inline-feedback" role="status" aria-live="polite"></div><button type="submit" class="button button-mint">Update password</button></form>
+      <p class="blueprint-security-note">Email verification, password recovery email and passkeys still depend on a configured identity/email service. They are not represented as active until verified and tested.</p>
+    </div>
+  </dialog>
+  <dialog id="accountRecoveryDialog" class="blueprint-dialog" aria-labelledby="accountRecoveryTitle">
+    <form method="dialog" class="blueprint-dialog-close-row"><button class="dialog-close" aria-label="Close account recovery">×</button></form>
+    <div class="blueprint-dialog-content">
+      <span class="live-room-kicker">ACCOUNT RECOVERY</span>
+      <h2 id="accountRecoveryTitle">Reset your password</h2>
+      <form id="passwordResetRequestForm" class="blueprint-password-form">
+        <p class="blueprint-dialog-lede">Enter your account email. We will send a one-time reset link when an eligible account exists.</p>
+        <label>Email address<input id="passwordResetEmail" type="email" autocomplete="email" maxlength="254" required></label>
+        <div id="passwordResetRequestFeedback" class="blueprint-inline-feedback" role="status" aria-live="polite"></div>
+        <button type="submit" class="button button-mint">Send reset link</button>
+      </form>
+      <form id="passwordResetConfirmForm" class="blueprint-password-form" hidden>
+        <p class="blueprint-dialog-lede">Choose a new password. The reset link is single-use and expires after 30 minutes.</p>
+        <label>New password<input id="resetNewPassword" type="password" autocomplete="new-password" minlength="12" maxlength="128" required></label>
+        <label>Confirm new password<input id="resetConfirmPassword" type="password" autocomplete="new-password" minlength="12" maxlength="128" required></label>
+        <div id="passwordResetConfirmFeedback" class="blueprint-inline-feedback" role="status" aria-live="polite"></div>
+        <button type="submit" class="button button-mint">Save new password</button>
+      </form>
+    </div>
+  </dialog>
+
+  <main>
+    <section id="homeView" class="view view-active">
+      <section class="hero wrap">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> PAYMENT PROBLEMS, MADE CLEARER</div>
+          <h1>Payment problem?<br><em>Know your next move.</em></h1>
+          <p class="hero-lede">Tell us what happened in Hindi, Hinglish, English or another supported Indian language. Get one clear, source-backed next step, review the details, and keep a concise case record if you need it. Voice is optional; typing works too.</p>
+          <div class="hero-actions"><button class="button button-mint" data-view="liveRoom">Talk to a resolution guide <span>↗</span></button><button class="button button-quiet hero-secondary" data-scroll="sampleCaseDemo">See a sample case</button></div>
+          <div class="hero-trust"><span>✓ Hindi / Hinglish voice + typing</span><span>✓ Official guidance links</span><span>✓ Review before saving</span></div>
+
+        </div>
+        <div class="hero-visual">
+          <div class="hero-photo hero-photo-sequence" aria-label="Illustrative steps: tell your story, show your evidence and take your next step">
+            <figure class="hero-photo-slide hero-photo-slide-story"><img src="https://images.pexels.com/photos/4307713/pexels-photo-4307713.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" data-fallback="/assets/man-fallback.jpg" alt="A person speaking on a smartphone, illustrating how to describe a payment problem" fetchpriority="high" decoding="async"><figcaption><span>01</span><b>Tell your story</b><small>Speak naturally, in the language you prefer.</small></figcaption></figure>
+            <figure class="hero-photo-slide hero-photo-slide-evidence"><img src="https://images.pexels.com/photos/6613956/pexels-photo-6613956.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" data-fallback="/assets/payment-detail-fallback.jpg" alt="A laptop, phone and payment card on a desk, illustrating evidence review" loading="lazy" decoding="async"><figcaption><span>02</span><b>Show your evidence</b><small>Keep receipts, screenshots and replies together.</small></figcaption></figure>
+            <figure class="hero-photo-slide hero-photo-slide-next"><img src="https://images.pexels.com/photos/5237652/pexels-photo-5237652.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" data-fallback="/assets/woman-phone-fallback.jpg" alt="A person using a phone and laptop, illustrating the next step in a case" loading="lazy" decoding="async"><figcaption><span>03</span><b>Take your next step</b><small>See a practical action and remember to follow up.</small></figcaption></figure>
+            <button id="heroPhotoPause" class="hero-photo-pause" type="button" aria-pressed="false" aria-label="Pause homepage photo sequence">Ⅱ <span>Pause</span></button>
+            <div class="hero-image-note"><span></span> MADE FOR EVERYDAY PAYMENT PROBLEMS</div>
+          </div>
+          <div class="hero-outcome-card" aria-label="What BolKeResolve helps you do">
+            <span class="hero-outcome-icon" aria-hidden="true">✓</span>
+            <div><b>From confusion to a clear next step</b><small>Find the right support route · prepare a message · remember to follow up</small></div>
+          </div>
+          <div class="hero-proof-chip"><span>01</span><b>One case. One next move.</b></div>
+        </div>
+      </section>
+      <section class="home-issue-picker wrap" id="commonIssues">
+        <div class="home-section-heading">
+          <div><span class="eyebrow"><span class="eyebrow-line"></span> START WITH THE PROBLEM</span><h2>What happened?</h2></div>
+          <p>Choose one of the common issues or simply tell your story. You can get a first suggestion before saving anything.</p>
+        </div>
+        <div class="home-issue-grid" role="group" aria-label="Common payment problems">
+          <button type="button" class="home-issue-card" data-start-issue="Refund not received"><span class="home-issue-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8V4m0 4h4M4.7 8a8 8 0 1 1-.2 7"/><path d="M12 7v5l3 2"/></svg></span><span><b>Refund hasn’t arrived</b><small>A refund is late or missing</small></span><span class="home-issue-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="home-issue-card" data-start-issue="Failed UPI payment"><span class="home-issue-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13.2 2.8 5.8 13h5.4l-.7 8.2L18.2 11h-5.3z"/></svg></span><span><b>Payment failed</b><small>Money may have been deducted</small></span><span class="home-issue-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="home-issue-card" data-start-issue="Suspected fraud or unauthorised transaction"><span class="home-issue-icon home-issue-icon-alert" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6z"/><path d="M12 8v5m0 3h.01"/></svg></span><span><b>Unrecognised payment</b><small>Something doesn’t look right</small></span><span class="home-issue-arrow" aria-hidden="true">↗</span></button>
+        </div>
+        <details class="home-issue-more">
+          <summary><span><b>Another payment issue?</b><small>Pending transfer, duplicate charge, wrong amount, missing order or something else</small></span><span class="home-issue-more-toggle" aria-hidden="true">＋</span></summary>
+          <div class="home-issue-secondary-grid" role="group" aria-label="More payment problems">
+          <button type="button" class="home-issue-card" data-start-issue="UPI payment pending / recipient not credited"><span class="home-issue-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 5l7 7-7 7"/><path d="M4 5v14"/></svg></span><span><b>Recipient hasn’t received it</b><small>UPI transfer is pending</small></span><span class="home-issue-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="home-issue-card" data-start-issue="Duplicate charge"><span class="home-issue-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/><path d="M11 14h6m-3-3v6"/></svg></span><span><b>Charged twice</b><small>Duplicate charge or debit</small></span><span class="home-issue-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="home-issue-card" data-start-issue="Incorrect amount"><span class="home-issue-icon home-issue-icon-rupee" aria-hidden="true">₹</span><span><b>Wrong amount</b><small>Charged more than expected</small></span><span class="home-issue-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="home-issue-card" data-start-issue="Order paid but not received"><span class="home-issue-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 8 9-5 9 5v10l-9 4-9-4z"/><path d="M3 8l9 5 9-5M12 13v9M8 5l9 5"/></svg></span><span><b>Order never arrived</b><small>Paid, but didn’t receive it</small></span><span class="home-issue-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="home-issue-card home-issue-card-other" data-start-issue="Other payment issue"><span class="home-issue-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span><b>Something else</b><small>Start with your own story</small></span><span class="home-issue-arrow" aria-hidden="true">↗</span></button>
+          </div>
+        </details>
+        <p class="home-issue-footnote">Not sure? That’s okay. Start with your story and leave details you don’t know blank.</p>
+      </section>
+      <section class="home-how wrap" id="howItWorks">
+        <div class="home-section-heading home-how-heading"><div><span class="eyebrow"><span class="eyebrow-line"></span> A SIMPLE PATH FORWARD</span><h2>Less form. More follow-through.</h2></div><p>BolKeResolve helps you understand the next step. It does not act as a bank, merchant or government complaint portal.</p></div>
+        <div class="home-how-grid" role="region" aria-label="How BolKeResolve works. Scroll horizontally to explore all three steps on smaller screens." tabindex="0">
+          <article class="home-how-card-visual"><div class="home-how-image home-how-image-story"><img src="https://images.pexels.com/photos/4307713/pexels-photo-4307713.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1400" data-fallback="/assets/man-fallback.jpg" alt="Indian man speaking on his smartphone, representing the first step of describing a payment problem" loading="lazy" decoding="async" referrerpolicy="no-referrer"><span>01</span></div><div class="home-how-card-copy"><h3>Tell us once</h3><p>Speak or type naturally. We reuse the details you’ve already shared.</p></div></article>
+          <article class="home-how-card-visual"><div class="home-how-image home-how-image-facts"><img src="https://images.pexels.com/photos/6613956/pexels-photo-6613956.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1400" data-fallback="/assets/payment-facts-fallback.svg" data-fallback-alt="Illustration of a payment receipt and verified transaction details" alt="A phone, laptop and payment card arranged on a workspace while reviewing transaction details" loading="lazy" decoding="async" referrerpolicy="no-referrer"><span>02</span></div><div class="home-how-card-copy"><h3>Check the facts</h3><p>Review the amount, date and issue before anything leaves your control.</p></div></article>
+          <article class="home-how-card-visual"><div class="home-how-image home-how-image-next"><img src="https://images.pexels.com/photos/5237652/pexels-photo-5237652.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1400" data-fallback="/assets/hero-fallback.jpg" alt="A woman speaking on her phone while using a laptop, representing taking the next step with support" loading="lazy" decoding="async" referrerpolicy="no-referrer"><span>03</span></div><div class="home-how-card-copy"><h3>Take the next step</h3><p>Get one practical action, a message to review, and an official route.</p></div></article>
+        </div>
+        <div class="home-trust-band"><span class="home-trust-mark">✓</span><p><b>Your case stays in your control.</b> BolKeResolve does not claim to verify bank or merchant records, and it never submits a complaint without your approval.</p><button class="button button-dark" data-view="new">Try the quick preview <span>↗</span></button></div>
+      </section>
+
+      <section class="home-sample-demo wrap" id="sampleCaseDemo" aria-labelledby="sampleDemoHeading">
+        <div class="home-sample-demo-heading">
+          <div><span class="eyebrow"><span class="eyebrow-line"></span> TRY A FICTIONAL CASE</span><h2 id="sampleDemoHeading">See what a useful next step looks like.</h2></div>
+          <p>Explore a realistic example without signing in or entering personal details. This read-only demo does not save a case or check a real payment.</p>
+        </div>
+        <div class="sample-demo-layout">
+          <div class="sample-demo-controls">
+            <span class="sample-demo-label">CHOOSE A SCENARIO</span>
+            <div class="sample-demo-options" role="group" aria-label="Choose a fictional payment scenario">
+              <button type="button" class="sample-demo-option is-selected" data-demo-case="failed-upi" aria-pressed="true"><span class="sample-demo-option-icon" aria-hidden="true">↗</span><span><b>UPI payment failed</b><small>Money appears debited</small></span><span class="sample-demo-check" aria-hidden="true">✓</span></button>
+              <button type="button" class="sample-demo-option" data-demo-case="refund-delayed" aria-pressed="false"><span class="sample-demo-option-icon" aria-hidden="true">₹</span><span><b>Refund is delayed</b><small>Merchant says it was initiated</small></span><span class="sample-demo-check" aria-hidden="true">✓</span></button>
+            </div>
+            <div class="sample-demo-story" aria-live="polite"><span class="sample-demo-label">FICTIONAL USER STORY</span><p id="sampleDemoStory">“Mere ₹1,200 account se debit hue, lekin UPI app mein payment failed dikh raha hai.”</p></div>
+            <button type="button" class="button button-dark sample-demo-run" id="runSampleDemoButton">Load example result <span aria-hidden="true">↗</span></button>
+            <p class="sample-demo-caption">No personal details • No case saved • No bank or merchant queried</p>
+          </div>
+          <div class="sample-demo-result" id="sampleDemoResult" aria-live="polite" aria-atomic="true">
+            <div class="sample-demo-empty"><span class="sample-demo-result-icon" aria-hidden="true">◎</span><h3>Preparing the selected example.</h3><p>The result shows the recommended first step, what still needs confirmation, and the official guidance relevant to this fictional scenario.</p><div class="sample-demo-assurance"><span>✓</span> Clearly labelled as a sample, never presented as a real refund result.</div></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="newView" class="view workspace-view">
+      <div class="workspace-shell wrap">
+        <div class="workspace-title"><div><div class="eyebrow"><span class="eyebrow-line"></span> NEW PAYMENT CASE</div><h1>Let’s start with<br><em>what happened.</em></h1><p>Speak or type in your own words. You can change anything before saving.</p></div><div class="step-progress" id="intakeProgress" aria-label="New case steps"><div class="progress-step active" data-intake-progress="1" aria-current="step"><span>1</span><small>Your story</small></div><i></i><div class="progress-step" data-intake-progress="2"><span>2</span><small>Review &amp; save</small></div></div></div>
+        <div class="form-layout">
+          <section class="form-card">
+<div class="intake-step-panel" data-intake-panel="1">            <div class="card-heading"><div><span class="section-kicker">STEP 01 / YOUR STORY</span><h2>Tell us in your own words</h2><p>Voice is optional. Typing works just as well.</p></div><span class="privacy-chip">♧ Private by default</span></div>
+            <div class="voice-box"><div class="voice-box-top"><span class="voice-state"><span class="status-dot"></span><span id="recordState">Ready when you are</span></span><div class="language-picker-adaptive"><span class="language-picker-label">Talk in</span><button type="button" id="languagePickerTrigger" class="language-picker-trigger" aria-haspopup="dialog" aria-expanded="false" aria-controls="languagePickerPanel"><span class="language-picker-globe" aria-hidden="true">文</span><span id="selectedLanguageLabel">✦ Choose for me · 10 languages</span><span class="language-picker-chevron" aria-hidden="true">⌄</span></button><div id="languagePickerPanel" class="language-picker-panel" role="dialog" aria-label="Choose voice language" hidden><div class="language-picker-panel-heading"><div><b>Speak naturally</b><small>Choose the language you’ll speak. You can change it any time.</small></div><button type="button" id="languagePickerClose" class="language-picker-close" aria-label="Close language choices">×</button></div><div class="language-choice-grid" role="group" aria-label="Available voice languages"><button type="button" class="language-choice language-choice-auto active" data-voice-lang="auto"><b>✦ Choose for me</b><span>We’ll try to understand what you say</span></button><button type="button" class="language-choice" data-voice-lang="hi-IN"><b>हिंदी</b><span>Hindi / Hinglish</span></button><button type="button" class="language-choice" data-voice-lang="en-IN"><b>English</b><span>India</span></button><button type="button" class="language-choice" data-voice-lang="mr-IN"><b>मराठी</b><span>Marathi</span></button><button type="button" class="language-choice" data-voice-lang="bn-IN"><b>বাংলা</b><span>Bengali</span></button><button type="button" class="language-choice" data-voice-lang="gu-IN"><b>ગુજરાતી</b><span>Gujarati</span></button><button type="button" class="language-choice" data-voice-lang="kn-IN"><b>ಕನ್ನಡ</b><span>Kannada</span></button><button type="button" class="language-choice" data-voice-lang="ml-IN"><b>മലയാളം</b><span>Malayalam</span></button><button type="button" class="language-choice" data-voice-lang="pa-IN"><b>ਪੰਜਾਬੀ</b><span>Punjabi</span></button><button type="button" class="language-choice" data-voice-lang="ta-IN"><b>தமிழ்</b><span>Tamil</span></button><button type="button" class="language-choice" data-voice-lang="te-IN"><b>తెలుగు</b><span>Telugu</span></button></div><p class="language-picker-note">If the words don’t look right, choose the language you spoke and try again. Your recording stays available.</p></div><select id="languageCode" class="language-source-select" aria-hidden="true" tabindex="-1"><option value="auto" selected>Try to recognise the language</option><option value="hi-IN">Hindi / Hinglish</option><option value="en-IN">English (India)</option><option value="mr-IN">Marathi</option><option value="bn-IN">Bengali</option><option value="gu-IN">Gujarati</option><option value="kn-IN">Kannada</option><option value="ml-IN">Malayalam</option><option value="pa-IN">Punjabi</option><option value="ta-IN">Tamil</option><option value="te-IN">Telugu</option></select></div></div><div class="voice-controls"><button id="recordButton" class="record-button" type="button"><span id="recordIcon">●</span><span id="recordLabel">Start recording</span></button><span id="recordTimer" class="record-timer">00:00 / 01:00</span><span class="voice-help">Speak naturally. You can correct the transcript before saving.</span></div><p id="gnaniModelAttribution" class="gnani-model-attribution" hidden>Speech transcription is configured to use Gnani AI Prisma v2.5. Read-aloud can use Gnani AI Timbre v2.5. Review all transcript text before saving.</p><div class="wave-bars" id="waveBars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div id="voiceFeedback" class="inline-feedback" role="status" hidden></div><section id="extractedFactsPanel" class="extracted-facts-panel" aria-live="polite" hidden><div class="extracted-facts-heading"><div><span class="section-kicker">VOICE TO CASE</span><h3>We picked up a few details</h3><p>We filled what sounded clear. Please review anything marked for confirmation.</p></div><span class="extracted-facts-count" id="extractedFactsCount">0 fields</span></div><div id="extractedFactsList" class="extracted-facts-list"></div><div id="extractedFactsQuestions" class="extracted-facts-questions" hidden></div></section><div class="divider-label"><span></span> OR TYPE INSTEAD <span></span></div><label for="description" class="field-label">What happened? <span class="required">*</span></label><textarea id="description" maxlength="5000" required placeholder="Example: Mere ₹850 kat gaye, order cancel ho gaya, lekin refund abhi tak nahi aaya. What did you try already?"></textarea><div class="field-foot"><span>Don’t include OTPs, UPI PINs, passwords, full card numbers or Aadhaar/PAN details.</span><span id="charCount">0 / 5000</span></div>
+              <section class="resolution-sprint-launch" aria-labelledby="sprintLaunchHeading">
+                <div class="resolution-sprint-launch-copy"><span class="section-kicker">GET VALUE FIRST</span><h3 id="sprintLaunchHeading">Get your next step before filling in the details</h3><p>We’ll give a first-pass suggestion from your story. You can correct it, see the sources, and decide whether to save a case.</p></div>
+                <button class="button button-dark" id="previewResolutionButton" type="button" disabled aria-controls="resolutionPreview"><span>Get my next step</span><span aria-hidden="true">↗</span></button>
+                <p class="resolution-sprint-hint">No account needed for this first suggestion. Nothing is submitted or sent.</p>
+                <div id="resolutionPreview" class="resolution-preview" hidden aria-live="polite" aria-atomic="false"></div>
+              </section>
+            </div></div>
+            <div class="intake-step-panel" data-intake-panel="2" hidden>
+              <div class="details-section details-section-refined">
+                <div class="card-heading compact"><div><span class="section-kicker">STEP 02 / REVIEW &amp; SAVE</span><h2>Confirm what you know</h2><p>Confirm the details that matter; you can save now even if some details are unknown.</p></div><span class="details-progress-note">You can leave unknown details blank</span></div>
+                <fieldset class="issue-choice-field"><legend>Type of issue <span>Choose one</span></legend>
+                  <select id="issueType" class="issue-select-source" aria-hidden="true" tabindex="-1" required><option value="Other payment issue" selected>I’m not sure / Other issue</option><option value="Failed UPI payment">Failed UPI payment</option><option value="UPI payment pending / recipient not credited">UPI pending / recipient not credited</option><option value="Refund not received">Refund not received</option><option value="Duplicate charge">Duplicate charge</option><option value="Incorrect amount">Incorrect amount</option><option value="Order paid but not received">Order paid but not received</option><option value="Suspected fraud or unauthorised transaction">Unrecognised / suspicious payment</option></select>
+                  <div class="issue-choice-grid" role="radiogroup" aria-label="Choose a common payment problem">
+                    <label class="issue-choice-card"><input type="radio" name="issueTypeChoice" data-issue-choice value="Refund not received"><span class="issue-choice-icon">↺</span><span class="issue-choice-copy"><b>Refund not received</b><small>Refund is late or missing</small></span></label>
+                    <label class="issue-choice-card"><input type="radio" name="issueTypeChoice" data-issue-choice value="Failed UPI payment"><span class="issue-choice-icon">↯</span><span class="issue-choice-copy"><b>Payment failed</b><small>Payment failed or reversed</small></span></label>
+                    <label class="issue-choice-card"><input type="radio" name="issueTypeChoice" data-issue-choice value="Suspected fraud or unauthorised transaction"><span class="issue-choice-icon issue-choice-alert">!</span><span class="issue-choice-copy"><b>Unrecognised payment</b><small>Act quickly if you suspect fraud</small></span></label>
+                    <label class="issue-choice-card"><input type="radio" name="issueTypeChoice" data-issue-choice value="Other payment issue" checked><span class="issue-choice-icon">＋</span><span class="issue-choice-copy"><b>Something else</b><small>We’ll start with your story</small></span></label>
+                  </div>
+                  <details class="intake-more-issues">
+                    <summary>More issue types <span aria-hidden="true">＋</span></summary>
+                    <div class="issue-choice-more-grid" role="group" aria-label="Additional payment issue types">
+                    <label class="issue-choice-card"><input type="radio" name="issueTypeChoice" data-issue-choice value="UPI payment pending / recipient not credited"><span class="issue-choice-icon">⇢</span><span class="issue-choice-copy"><b>Recipient not credited</b><small>Money left your account</small></span></label>
+                    <label class="issue-choice-card"><input type="radio" name="issueTypeChoice" data-issue-choice value="Duplicate charge"><span class="issue-choice-icon">×2</span><span class="issue-choice-copy"><b>Charged twice</b><small>Two charges for one thing</small></span></label>
+                    <label class="issue-choice-card"><input type="radio" name="issueTypeChoice" data-issue-choice value="Incorrect amount"><span class="issue-choice-icon">₹</span><span class="issue-choice-copy"><b>Wrong amount</b><small>Amount differs from expected</small></span></label>
+                    <label class="issue-choice-card"><input type="radio" name="issueTypeChoice" data-issue-choice value="Order paid but not received"><span class="issue-choice-icon">⌂</span><span class="issue-choice-copy"><b>Order not received</b><small>Paid, but item didn’t arrive</small></span></label>
+                    </div>
+                  </details>
+                </fieldset>
+                <div class="details-subhead"><b>Details you already know</b><span>Optional unless shown otherwise</span></div>
+                <div class="fields-grid details-fields-grid">
+                  <label class="field"><span>Merchant or app <small>(optional)</small></span><input id="merchant" maxlength="100" placeholder="e.g. Zomato, PhonePe, Amazon"></label>
+                  <label class="field"><span>Amount in ₹ <small>(optional)</small></span><input id="amount" type="number" min="0" max="100000000" step="0.01" inputmode="decimal" placeholder="e.g. 850"></label>
+                  <label class="field"><span>Payment date <small>(optional)</small></span><input id="paymentDate" type="date"></label>
+                </div>
+                <p class="details-safety-hint"><span>i</span> These details come from your report. Please review them before continuing.</p>
+              </div>
+            <div class="details-section resolution-start-section"><div class="card-heading compact"><div><span class="section-kicker">OPTIONAL DETAILS</span><h2>Make the next step more specific</h2><p>These answers can help tailor your saved plan. They are based on your report, not a check of bank or merchant records.</p></div></div><div class="resolution-input-row"><label class="field"><span>What status does the app show?</span><select id="paymentStatus"><option value="unknown">Not sure / not checked</option><option value="failed">Failed</option><option value="pending">Pending</option><option value="successful">Successful</option><option value="refund_pending">Refund pending</option><option value="unauthorized">I don’t recognise this payment</option></select></label><label class="field"><span>Have you contacted support?</span><select id="contactedSupport"><option value="">Not answered yet</option><option value="yes">Yes</option><option value="no">Not yet</option></select></label></div><p class="sprint-return-note"><b>Unknown is okay.</b> The saved case uses the details you confirm here. Go back if you want to refresh the first suggestion first.</p><button type="button" class="button button-outline sprint-back-to-result" id="backToSprintResultButton">← Back to my suggestion</button></div>
+<button type="button" class="intake-evidence-toggle" id="intakeEvidenceToggle" aria-expanded="false" aria-controls="intakeEvidencePanel"><span class="intake-evidence-plus">＋</span><span><b>Add evidence <small>(optional)</small></b><em>A receipt or screenshot can help, but you can continue without one.</em></span><span class="intake-evidence-chevron">⌄</span></button><div id="intakeEvidencePanel" hidden>            <div class="details-section evidence-upload-section"><div class="card-heading compact"><div><span class="section-kicker">OPTIONAL / EVIDENCE</span><h2>Add a screenshot or statement</h2><p>Remove private account details before adding a file.</p></div><span class="file-count" id="fileCount">0 files</span></div><label class="upload-zone" for="evidenceFile"><span class="upload-mark">↑</span><span><b>Choose evidence file</b><small>PNG, JPG, WEBP or PDF · up to 8 MB each</small><small class="share-target-hint">On supported installed devices, you can also share a receipt or screenshot from another app.</small></span><span class="upload-action">Browse files</span><input type="file" id="evidenceFile" accept=".png,.jpg,.jpeg,.webp,.pdf" multiple></label><div id="selectedFiles" class="selected-files"></div><p class="security-note">⚠ Never share OTPs, UPI PINs, passwords, full card numbers, Aadhaar or PAN. Only upload files you are comfortable sharing.</p></div></div>
+<div class="review-confirm"><label class="check-row"><input type="checkbox" id="safeDataCheck"><span>I reviewed the details and haven’t included OTPs, UPI PINs, passwords or full card numbers. Any files I attach are safe to share.</span></label><p class="helper-text">You’ll review your case after it is saved. BolKeResolve will not contact the organisation without your approval.</p></div>
+            <div id="formError" class="form-error" role="alert" hidden></div></div><div class="intake-action-bar" id="intakeActionBar"><button type="button" class="button button-outline intake-back-button" id="intakeBackButton" hidden>← Back</button><span class="intake-stage-status" id="intakeStageStatus">STEP 1 OF 2 <b>Tell your story</b></span><button type="button" class="button button-mint intake-next-button" id="intakeNextButton">Continue to review &amp; save <span>↗</span></button><button type="button" class="button button-mint intake-save-button" id="createCaseButton" hidden>Save my case <span>↗</span></button></div>
+          </section>
+          <aside class="side-rail intake-helper-rail">
+            <section class="rail-card intake-helper-card">
+              <div class="intake-helper-avatar"><img src="/assets/bolke-guide-avatar.webp" alt="" aria-hidden="true"></div>
+              <span class="section-kicker">YOU’RE IN CONTROL</span><h3>Start with what you know.</h3><p>You don’t need every detail to get started. We’ll show what’s missing after we understand the story.</p>
+              <ul class="intake-helper-list"><li>Correct anything before saving</li><li>Add a receipt later, if you have one</li><li>Nothing is sent without your approval</li></ul>
+            </section>
+            <section class="rail-card intake-helper-tip"><span class="rail-icon">✳</span><b>Keep sensitive details private</b><p>Never enter OTPs, UPI PINs, passwords or full card numbers.</p><button type="button" class="button button-outline full-button" data-view="whatsapp">Try message-style chat ↗</button></section>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="whatsappView" class="view workspace-view whatsapp-view">
+      <div class="wrap whatsapp-shell">
+        <div class="wa-intro">
+          <div class="eyebrow"><span class="eyebrow-line"></span> A GUIDED, MESSAGE-STYLE INTAKE</div>
+          <h1>Your problem,<br><em>one message</em><br>at a time.</h1>
+          <p>Start with a message in your own words. This guided chat saves a real BolKeResolve case on the same workspace. Connecting an external messaging channel is optional.</p>
+          <div class="wa-human-strip"><img src="https://images.pexels.com/photos/4307867/pexels-photo-4307867.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200" data-fallback="/assets/woman-phone-fallback.jpg" alt="Indian couple using a smartphone"><div><span>MADE FOR EVERYDAY MOMENTS</span><b>Bol ke batao. We’ll take it step by step.</b></div></div>
+          <div class="wa-benefits"><div><span>✓</span><div><b>Hindi, Hinglish or English</b><small>Use the words that feel natural.</small></div></div><div><span>✓</span><div><b>No long forms to begin</b><small>Share the story first, details later.</small></div></div><div><span>✓</span><div><b>You remain in control</b><small>Review your summary before moving on.</small></div></div></div>
+          <div class="wa-intro-actions"><button class="button button-whatsapp" id="openWhatsAppButton" type="button"><span class="wa-brand-icon">◉</span> Open WhatsApp <span>↗</span></button><button class="button button-quiet" data-view="new">Use the full form instead</button></div>
+          <p class="wa-small-note" id="whatsappIntegrationNote" role="status" aria-live="polite">WhatsApp messaging is not available on this deployment yet. You can still use the message-style chat here; your case will be saved in BolKeResolve.</p>
+        </div>
+        <div class="wa-device-wrap">
+          <div class="wa-device">
+            <div class="wa-statusbar"><span>9:41</span><span>●●● ◔ ▰</span></div>
+            <div class="wa-chat-header"><div class="wa-brand-avatar">b</div><div class="wa-contact"><b>Your resolution guide</b><small><span></span> Private guided chat · not WhatsApp</small></div><span class="wa-chat-step" id="waChatStep">START HERE</span></div>
+            <div class="wa-day-chip">TODAY</div>
+            <div id="waThread" class="wa-thread" role="log" aria-live="polite" aria-label="WhatsApp-style conversation">
+              <div class="wa-message bot-message"><p>Namaste! 👋 Welcome to BolKeResolve.</p><time>9:41 AM <span>✓✓</span></time></div>
+              <div class="wa-message bot-message"><p>Paise se related kya problem aa rahi hai? Choose an option below, or just tell me in your own words.</p><time>9:41 AM <span>✓✓</span></time></div>
+            </div>
+            <div id="waQuickReplies" class="wa-quick-replies"><button type="button" data-wa-pick="Refund not received">Refund missing</button><button type="button" data-wa-pick="Failed UPI payment">Payment failed</button><button type="button" data-wa-pick="UPI payment pending / recipient not credited">UPI pending</button><button type="button" data-wa-pick="Suspected fraud or unauthorised transaction">Unknown payment</button><details class="wa-more-issues"><summary>Another issue</summary><div><button type="button" data-wa-pick="Other payment issue">I’m not sure</button><button type="button" data-wa-pick="Duplicate charge">Charged twice</button><button type="button" data-wa-pick="Incorrect amount">Wrong amount</button><button type="button" data-wa-pick="Order paid but not received">Order not received</button></div></details></div>
+            <div id="waSaveArea" class="wa-save-area" hidden><div><b>Your case summary is ready to save</b><small id="waSummaryCount">0 words added</small></div><button id="waCreateCaseButton" type="button">Save case <span>↗</span></button></div>
+            <div class="wa-voice-controls" aria-label="Voice input settings">
+              <label for="waLanguageCode"><span>Speak in</span><select id="waLanguageCode" aria-label="Language for voice input"><option value="auto">Detect language</option><option value="hi-IN">Hindi / Hinglish</option><option value="en-IN">English (India)</option><option value="mr-IN">Marathi</option><option value="bn-IN">Bengali</option><option value="gu-IN">Gujarati</option><option value="kn-IN">Kannada</option><option value="ml-IN">Malayalam</option><option value="pa-IN">Punjabi</option><option value="ta-IN">Tamil</option><option value="te-IN">Telugu</option></select></label>
+              <button id="waVoiceButton" type="button" class="wa-voice-button" aria-pressed="false" title="Record up to 60 seconds, then review the transcript"><span aria-hidden="true">🎙</span> Speak</button>
+            </div>
+            <p id="waVoiceStatus" class="wa-voice-status" role="status" aria-live="polite">Speak for up to 60 seconds. Your recording is sent for transcription only after you stop.</p>
+            <form id="waComposer" class="wa-composer"><button type="button" class="wa-plus" id="waAttachHint" aria-label="Attachment info">＋</button><input id="waMessage" type="text" maxlength="1500" autocomplete="off" placeholder="Type or use Speak…" aria-label="Write your message" required><button class="wa-send" type="submit" aria-label="Send message">➤</button></form>
+            <div class="wa-safety-line">🔒 Never send OTPs, UPI PINs, passwords or full card numbers.</div>
+          </div>
+          <div class="wa-float-note"><span>✦</span><div><b>Less form filling.</b><small>More natural conversation.</small></div></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="liveRoomView" class="view workspace-view live-room-view">
+      <div class="wrap live-room-shell">
+        <div class="live-room-heading">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> YOUR LIVE RESOLUTION SPACE</div>
+            <h1>Let's work through<br><em>this together.</em></h1>
+            <p>Speak naturally, show the documents you have, and get a practical next step. Your confirmed details and evidence stay in one BolKeResolve case.</p>
+          </div>
+          <div class="live-room-trust"><span>✓ Hindi, Hinglish &amp; English</span><span>✓ You choose what to share</span><span>✓ Saved to your case</span></div>
+        </div>
+
+        <section id="liveRoomStart" class="live-room-start-card" aria-labelledby="liveRoomStartTitle">
+          <div class="live-room-start-copy">
+            <span class="live-room-kicker">START WITH YOUR STORY</span>
+            <h2 id="liveRoomStartTitle">You don't need to know where to begin.</h2>
+            <p>Start a guided session. Just speak naturally — automatic language detection is on, so you do not need to choose a language first. Microphone and camera permissions are requested separately, and either can be skipped.</p>
+            <ul class="live-room-benefits"><li><span>01</span><div><b>Tell us what happened</b><small>Use the language that feels easiest.</small></div></li><li><span>02</span><div><b>Show what you have</b><small>Capture a receipt, upload a screenshot or PDF, or share a screen you choose.</small></div></li><li><span>03</span><div><b>Get your next move</b><small>See why the route fits, which source supports it and what to prepare.</small></div></li></ul>
+            <div class="live-room-ai-consent-card" aria-label="Optional AI settings">
+              <div class="live-room-ai-option" id="liveRoomCaseAIOption">
+                <label class="live-room-ai-consent" hidden><input id="liveRoomCaseAIConsent" type="checkbox"><span><b>Let AI understand my case <span class="optional-label">Optional</span></b><small>With your permission, redacted text and key case facts can help explain corrections and mixed-language answers. Raw microphone audio and images are excluded.</small></span></label>
+                <p id="liveRoomCaseAIUnavailable" class="live-room-option-unavailable" role="status"><b>AI case understanding isn't enabled yet</b><span>You can still start a case. Reviewed, rule-based guidance remains available.</span></p>
+              </div>
+              <div class="live-room-ai-option" id="liveRoomTranslationOption">
+                <label class="live-room-ai-consent" hidden><input id="liveRoomAiConsent" type="checkbox"><span><b>Translate guidance into my language <span class="optional-label">Optional</span></b><small>With your permission, generated guidance can be translated into your selected language.</small></span></label>
+                <p id="liveRoomTranslationUnavailable" class="live-room-option-unavailable" role="status"><b>Language translation isn't enabled yet</b><span>You can still speak in a supported language. Guidance will remain in its available language.</span></p>
+              </div>
+              <p class="live-room-consent-footnote">Microphone and camera permissions are separate browser choices. Photos are stored in your case first. Visual AI review asks for separate approval. Nothing is submitted to a company without your action. External AI processing follows the provider's data controls; this is not a zero-retention guarantee.</p>
+            </div>
+            <div class="live-room-start-actions"><button id="liveRoomStartButton" class="button button-mint" type="button">Start live resolution <span>↗</span></button><button class="button button-quiet" data-view="new" type="button">Type instead</button></div>
+            <p class="live-room-privacy-note"><span>◈</span> Voice is optional. Your words are transcribed for you to review before saving. Camera and screen sharing start only when you choose them. You can type instead.</p>
+          </div>
+          <div class="live-room-start-visual live-room-product-preview" aria-label="Illustration of a case moving from story to evidence to next step">
+            <div class="live-preview-window"><div class="live-preview-window-bar"><span></span><span></span><span></span><b>YOUR CASE WORKSPACE</b></div>
+              <div class="live-preview-case-head"><span>CASE BR- DEMO</span><i>In progress</i></div>
+              <div class="live-preview-case-title">Refund not received</div>
+              <div class="live-preview-case-subtitle">A clear record, one next step at a time.</div>
+              <div class="live-preview-flow">
+                <div class="live-preview-flow-card"><span class="live-preview-icon">◖</span><b>Tell your story</b><small>Voice or text</small><em>Saved to case</em></div>
+                <div class="live-preview-flow-arrow">→</div>
+                <div class="live-preview-flow-card"><span class="live-preview-icon">▧</span><b>Show evidence</b><small>Receipt + message</small><em>Original preserved</em></div>
+                <div class="live-preview-flow-arrow">→</div>
+                <div class="live-preview-flow-card live-preview-flow-next"><span class="live-preview-icon">↗</span><b>Next action</b><small>Ask for refund reference</small><em>Ready to review</em></div>
+              </div>
+              <div class="live-preview-footer"><span><i></i> Timeline updated</span><span>Evidence · 2 items</span><span>Export ready</span></div>
+            </div>
+            <div class="live-room-visual-caption"><b>One conversation.</b><small>Your whole case, kept together.</small></div>
+          </div>
+        </section>
+
+        <section id="liveRoomWorkspace" class="live-room-workspace" hidden aria-label="Live resolution workspace">
+          <div class="live-room-workspace-topbar">
+            <div class="live-room-workspace-case-label"><span>CASE WORKSPACE</span><b id="liveRoomWorkspaceCaseId">Loading case…</b><small id="liveRoomWorkspaceCaseStatus">Your progress is saved as you go.</small></div>
+            <div class="live-room-workspace-nav"><button id="liveRoomBackToCaseButton" type="button" class="button button-outline button-sm">← Back to case</button><button id="liveRoomMyCasesButton" type="button" class="button button-quiet button-sm">My cases</button></div>
+          </div>
+          <div class="live-room-main-column">
+            <article class="live-room-panel live-room-conversation-panel">
+              <div class="live-room-panel-head"><div><span class="live-room-kicker">LIVE CONVERSATION</span><h2>Your resolution guide</h2></div><span id="liveRoomConnectionStatus" class="live-room-status"><i></i> Connecting</span></div>
+              <div class="live-room-camera-stage">
+                <video id="liveRoomCameraPreview" class="live-room-camera-preview" autoplay muted playsinline></video>
+                <video id="liveRoomScreenPreview" class="live-room-screen-preview" autoplay muted playsinline hidden></video>
+                <div id="liveRoomCameraPlaceholder" class="live-room-camera-placeholder"><span class="live-room-camera-icon">◉</span><b>Camera is off</b><small>Open it only when you want to show a document or item.</small></div>
+                <button id="liveRoomOpenCameraButton" class="live-room-camera-toggle" type="button" aria-pressed="false">Open camera</button><div class="live-room-camera-chip"><i></i><span id="liveRoomCameraLabel">Camera ready</span></div>
+              </div>
+              <div class="live-room-audio-state"><span id="liveRoomAudioPulse" class="live-room-audio-pulse"><i></i><i></i><i></i><i></i><i></i></span><div class="live-room-audio-copy"><b id="liveRoomAudioState">Ready to listen</b><small id="liveRoomAudioHint">Speak naturally. Pause when you finish a thought.</small><div class="live-room-mic-meter" aria-hidden="true"><span id="liveRoomMicLevelFill"></span></div><small id="liveRoomMicLevelLabel" class="live-room-mic-label">Speak to test your microphone</small></div></div>
+              <div id="liveRoomTranscript" class="live-room-transcript" role="log" aria-live="polite"><div class="live-room-transcript-empty">Your conversation will appear here. You can correct anything before it becomes part of your case.</div></div>
+              <form id="liveRoomTextForm" class="live-room-composer"><input id="liveRoomTextInput" maxlength="2000" placeholder="Add a detail or type your message…" aria-label="Type a message"><button class="button button-dark" type="submit">Send ↗</button></form><div class="live-room-intake-actions"><button id="liveRoomFinishStoryButton" class="button button-mint" type="button" disabled>Finish explaining · Build my next step</button><small>Speak or type your full story first. We won't interrupt with a generic plan.</small></div>
+              <div class="live-room-controls">
+                <div class="live-room-auto-language" aria-live="polite"><span class="live-room-auto-language-dot"></span><span><b id="liveRoomLanguageModeLabel">Automatic language detection</b><small>Speak in Hindi, Hinglish, English or another supported language.</small></span></div><details class="live-room-language-settings"><summary>Change language (optional)</summary><label class="live-room-language" for="liveRoomLanguage"><span>Preferred speech language</span><select id="liveRoomLanguage"><option value="indic-auto" selected>Detect automatically</option><option value="hi-IN">Hindi</option><option value="en-IN">English (India)</option><option value="mr-IN">Marathi</option><option value="bn-IN">Bengali</option><option value="gu-IN">Gujarati</option><option value="kn-IN">Kannada</option><option value="ml-IN">Malayalam</option><option value="pa-IN">Punjabi</option><option value="ta-IN">Tamil</option><option value="te-IN">Telugu</option></select></label><small>Only choose a language when automatic detection is not working well for your microphone or accent.</small></details>
+                <details class="live-room-ai-workspace-settings"><summary>AI and privacy</summary><div class="live-room-ai-workspace-popover"><div id="liveRoomCaseAIWorkspaceOption"><label class="live-room-ai-consent"><input id="liveRoomCaseAIActiveConsent" type="checkbox"><span><b>AI case understanding</b><small>When enabled, the configured AI provider interprets redacted saved text and key facts. Raw audio and images are excluded. You can switch this off at any time.</small></span></label><p id="liveRoomCaseAIWorkspaceUnavailable" class="live-room-option-unavailable" role="status" hidden>Case understanding is not configured on this server. Rule-based guidance remains available.</p></div><p id="liveRoomCaseAIStatus" role="status" aria-live="polite">Case AI is off. Rule-based guidance remains available.</p></div></details>
+                <details class="live-room-voice-settings"><summary>Mic settings</summary><div class="live-room-voice-settings-popover"><label for="liveRoomMicProfile">Room / microphone</label><select id="liveRoomMicProfile"><option value="laptop" selected>Laptop microphone</option><option value="quiet">Quiet voice / close microphone</option><option value="noisy">Noisy room</option></select><label for="liveRoomMicDevice">Input device</label><select id="liveRoomMicDevice"><option value="">System default microphone</option></select><small>Change these only if the live transcript is missing words. Voice reconnects when you apply a setting.</small><button id="liveRoomApplyMicSettings" class="button button-quiet" type="button">Apply mic settings</button></div></details>
+                <button id="liveRoomMicToggle" class="live-room-control-button live-room-primary-mic" type="button" aria-pressed="true">Mic on</button>
+                <button id="liveRoomFinishSpeakingButton" class="live-room-control-button" type="button" disabled>Finish speaking</button>
+                <button id="liveRoomRetryVoiceButton" class="live-room-control-button live-room-retry-voice" type="button" hidden>Restart voice</button>
+                <details id="liveRoomCaptureTools" class="live-room-capture-tools">
+                  <summary>＋ Add or show evidence</summary>
+                  <div class="live-room-capture-tool-options">
+                    <button id="liveRoomVoiceNoteButton" class="live-room-control-button live-room-voice-note" type="button">Record voice note</button>
+                    <button id="liveRoomCaptureButton" class="live-room-control-button" type="button">Capture photo</button>
+                    <button id="liveRoomScreenButton" class="live-room-control-button" type="button">Share screen</button>
+                    <button id="liveRoomClipButton" class="live-room-control-button" type="button">Record clip</button>
+                    <button id="liveRoomChooseFileButton" class="live-room-control-button" type="button">Choose a file</button>
+                  </div>
+                  <small>Or tell BolKeResolve what you want to show. It will offer the relevant capture action. You can cancel or stop at any time.</small>
+                </details>
+                <button id="liveRoomEndButton" class="live-room-end-button" type="button">End session</button>
+              </div>
+              <input id="liveRoomFiles" type="file" accept="image/png,image/jpeg,image/webp,application/pdf,video/webm,video/mp4,audio/wav,audio/mpeg,audio/mp4,audio/ogg,audio/flac,audio/aac,.m4a,.mp3,.wav,.ogg,.flac,.aac,.csv" multiple hidden>
+              <input id="liveRoomReconCsv" type="file" accept=".csv,text/csv" hidden>
+              <p class="live-room-upload-note">Documents are saved to this case as originals. Extracted details are added only after you review them.</p>
+              <div id="liveRoomFeedback" class="live-room-feedback" role="status" aria-live="polite"></div>
+            </article>
+            <article class="live-room-panel live-room-evidence-panel"><div class="live-room-panel-head"><div><span class="live-room-kicker">YOUR CASE DOSSIER</span><h2>Evidence &amp; documents</h2><p class="live-room-panel-subtitle">Every original stays linked to this case, with its own date, preview and download.</p></div><div class="live-room-evidence-head-actions"><span id="liveRoomEvidenceCount" class="live-room-count">0 items</span><button id="liveRoomReconImportButton" class="button button-quiet" type="button" hidden>Import settlement CSV</button></div></div><div id="liveRoomEvidenceList" class="live-room-evidence-list"><div class="live-room-empty">Your evidence will appear here after you add it.</div></div><div id="liveRoomReconPreview" class="live-room-reconciliation-preview" hidden></div><div id="liveRoomEvidenceReview" class="live-room-evidence-review" hidden></div></article>
+          </div>
+          <aside class="live-room-side-column">
+            <article class="live-room-panel live-room-guidance-panel"><div class="live-room-panel-head"><div><span class="live-room-kicker">YOUR PERSONAL RESOLUTION PLAN</span><h2 id="liveRoomGuidanceTitle">We'll work it out together.</h2></div><span class="live-room-guidance-mark">↗</span></div><div id="liveRoomGuidanceProgress" class="live-room-guidance-progress" hidden></div><p id="liveRoomGuidanceReason" class="live-room-guidance-reason">As we understand your situation, we'll show the next practical step here.</p><details id="liveRoomGuidanceWhy" class="live-room-guidance-why" hidden><summary>Why this route?</summary><p data-guidance-why-body></p></details><div id="liveRoomGuidanceTranslation" class="live-room-guidance-translation" hidden></div><div id="liveRoomGuidanceQuestion" class="live-room-guidance-question" hidden></div><div id="liveRoomGuidanceSteps" class="live-room-guidance-steps"></div><div id="liveRoomGuidanceChecklist" class="live-room-guidance-checklist"></div><div id="liveRoomGuidanceSources" class="live-room-guidance-sources"></div><div id="liveRoomSupportDraft" class="live-room-support-draft"></div><div class="live-room-guidance-actions"><button type="button" class="button button-quiet" id="liveRoomAddEvidenceButton">＋ Add a document or screenshot</button><button type="button" class="button button-quiet" id="liveRoomEditCaseButton">Edit case details ↗</button></div><div class="live-room-boundary">Guidance is based on what you've told us and the official sources shown. BolKeResolve does not access bank or merchant records and cannot guarantee a refund.</div></article>
+            <article class="live-room-panel live-room-case-panel"><div class="live-room-kicker">YOUR CASE</div><div class="live-room-case-id" id="liveRoomCaseId">Not saved yet</div><p id="liveRoomCaseState">A private draft is created when you start. Your words, confirmed details, evidence and guidance are saved here as you go.</p><div id="liveRoomFollowupNotice" class="live-room-followup-notice" hidden></div><form id="liveRoomFollowupForm" class="live-room-followup-form" hidden><b>Set a follow-up reminder</b><small>Choose when you want to check for a response. This is saved in your case; it is not a push notification unless a reminder channel is connected.</small><label for="liveRoomFollowupDate">Remind me on</label><input id="liveRoomFollowupDate" type="date"><label for="liveRoomFollowupNote">What should you check? (optional)</label><input id="liveRoomFollowupNote" type="text" maxlength="300" placeholder="e.g. Check whether support replied"><button class="button button-outline" type="submit">Save follow-up date</button></form><div class="live-room-case-actions"><button id="liveRoomOpenCaseButton" class="button button-outline" type="button" disabled>Open full case ↗</button><a id="liveRoomPrintCaseButton" class="button button-quiet" href="#" target="_blank" rel="noopener" hidden>Print / save PDF ↗</a><button id="liveRoomEvidenceBundleButton" class="button button-quiet" type="button" hidden>Prepare case export ↗</button></div></article>
+          </aside>
+        </section>
+        <dialog id="liveRoomExportDialog" class="blueprint-dialog" aria-labelledby="liveRoomExportTitle">
+          <form method="dialog" class="blueprint-dialog-close-row"><button class="dialog-close" aria-label="Close export options">×</button></form>
+          <div class="blueprint-dialog-content"><span class="live-room-kicker">PORTABLE CASE RECORD</span><h2 id="liveRoomExportTitle">Prepare your case export</h2><p class="blueprint-dialog-lede">Choose what to include. Original evidence files are never silently altered.</p>
+            <fieldset class="blueprint-export-mode"><legend>Export type</legend><label><input type="radio" name="liveRoomExportMode" value="complete" checked><span><b>Complete archive</b><small>All original evidence, timeline, conversation, facts and derivatives.</small></span></label><label><input type="radio" name="liveRoomExportMode" value="share"><span><b>Share-ready selection</b><small>Include only the evidence you select below. Useful when sharing a focused record.</small></span></label></fieldset>
+            <div id="liveRoomExportEvidencePicker" class="blueprint-export-evidence-picker"><b>Select evidence for share-ready export</b><p>Choose the files to include. The complete archive always includes all case evidence.</p><div id="liveRoomExportEvidenceList"></div></div>
+            <label class="blueprint-export-redact"><input id="liveRoomExportRedact" type="checkbox"><span><b>Redact common sensitive patterns in text reports</b><small>Examples include email addresses, Indian mobile numbers, labelled account numbers, PAN/Aadhaar-like identifiers and obvious PIN/OTP patterns. Original photos, PDFs, audio and video are not modified. Review the exported files before sharing.</small></span></label>
+            <p class="blueprint-security-note">The export is a user-assembled case record, not a certified legal record. SHA-256 hashes help identify exported bytes; they do not prove authenticity or truth.</p>
+            <div class="blueprint-dialog-actions"><button type="button" id="liveRoomExportCancel" class="button button-quiet">Cancel</button><button type="button" id="liveRoomExportDownload" class="button button-mint">Download ZIP archive ↗</button></div>
+          </div>
+        </dialog>
+        <dialog id="liveRoomTranscriptEditDialog" class="blueprint-dialog" aria-labelledby="liveRoomTranscriptEditTitle">
+          <form method="dialog" class="blueprint-dialog-close-row"><button class="dialog-close" aria-label="Close transcript editor">×</button></form>
+          <form id="liveRoomTranscriptEditForm" class="blueprint-dialog-content"><span class="live-room-kicker">TRANSCRIPT REVIEW</span><h2 id="liveRoomTranscriptEditTitle">Correct what was heard</h2><p class="blueprint-dialog-lede">Your correction becomes a new version. The original transcript is retained in the case history.</p><label class="blueprint-transcript-edit-label" for="liveRoomTranscriptEditText">Corrected wording</label><textarea id="liveRoomTranscriptEditText" rows="7" maxlength="5000" required></textarea><div class="blueprint-dialog-actions"><button type="button" id="liveRoomTranscriptEditCancel" class="button button-quiet">Cancel</button><button type="submit" id="liveRoomTranscriptEditSave" class="button button-mint">Save correction</button></div></form>
+        </dialog>
+      </div>
+    </section>
+
+    <section id="casesView" class="view workspace-view">
+      <div class="workspace-shell wrap">
+        <div class="workspace-title cases-title"><div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR WORKSPACE</div><h1>My <em>cases.</em></h1><p>Every issue you have shared, organised in one place.</p></div><button class="button button-mint" data-view="new">+ New case</button></div>
+        <div class="cases-summary"><div class="summary-card"><small>TOTAL CASES</small><b id="totalCaseCount">0</b><span>All cases you’ve created</span></div><div class="summary-card"><small>OPEN CASES</small><b id="openCaseCount">0</b><span>Need a next step</span></div><div class="summary-card"><small>EVIDENCE FILES</small><b id="evidenceCaseCount">0</b><span>Across your cases</span></div></div>
+        <div class="cases-toolbar"><label class="cases-search-label" for="casesSearch">Find a case<input id="casesSearch" type="search" placeholder="Search by case, issue or organisation" autocomplete="off"></label><div class="cases-filter-group" role="group" aria-label="Filter cases"><button type="button" data-case-filter="all" aria-pressed="true">All</button><button type="button" data-case-filter="active" aria-pressed="false">Action needed</button><button type="button" data-case-filter="waiting" aria-pressed="false">Waiting</button><button type="button" data-case-filter="resolved" aria-pressed="false">Resolved</button></div></div>
+        <div id="casesList" class="cases-list"></div>
+        <details id="accountDataControls" class="account-data-controls" hidden>
+          <summary>Account &amp; privacy</summary>
+          <div class="account-data-controls-body">
+            <p>Signed in as <strong id="accountPrivacyEmail"></strong></p>
+            <p>You can remove your account, saved cases and uploaded evidence from the active BolKeResolve database. This cannot recall files you already downloaded, messages already sent to external services, or copies held in host backups.</p>
+            <button type="button" class="button button-outline account-delete-trigger" id="deleteAccountOpenButton">Delete account and saved data</button>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="detailView" class="view workspace-view">
+      <div class="workspace-shell wrap"><button class="back-link" data-view="cases">← Back to my cases</button><div id="caseDetailContent"></div></div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><a class="brand" href="#home" data-view="home"><span class="brand-logo">b<span>↗</span></span><span>BolKe<span class="brand-light">Resolve</span></span></a><p>Made to make a difficult process feel more human.</p><span class="footer-disclaimer">Your story. Your next step.</span></div><div class="wrap footer-small">For your safety, never share OTPs, UPI PINs, passwords or full payment credentials. <a href="/privacy.html">Privacy notice</a></div></footer>
+  <dialog id="sharedIntakeDialog" class="shared-intake-dialog" aria-labelledby="sharedIntakeHeading">
+    <div class="shared-intake-dialog-inner">
+      <span class="section-kicker">SHARED ITEM · REVIEW FIRST</span>
+      <h2 id="sharedIntakeHeading">Add this to BolKeResolve?</h2>
+      <p id="sharedIntakeNotice" class="shared-intake-notice">This item is staged temporarily. It has not been added to a case.</p>
+      <div class="shared-intake-preview-card">
+        <b id="sharedIntakeTitle">Item from another app</b>
+        <small id="sharedIntakeFileMeta" hidden></small>
+        <small id="sharedIntakeSourceDomain" hidden></small>
+        <p id="sharedIntakeText" hidden></p>
+      </div>
+      <div class="shared-intake-existing">
+        <label for="sharedIntakeCaseSelect">Add to an existing case</label>
+        <select id="sharedIntakeCaseSelect"><option value="">Choose a case…</option></select>
+        <button type="button" class="button button-dark" id="sharedIntakeAttachButton">Add to selected case</button>
+        <small id="sharedIntakeCaseHint">The shared item is not added until you confirm.</small>
+      </div>
+      <div class="shared-intake-actions">
+        <button type="button" class="button button-mint" id="sharedIntakeNewCaseButton">Use to start a new case ↗</button>
+        <button type="button" class="button button-quiet" id="sharedIntakeDiscardButton">Discard shared item</button>
+      </div>
+      <p class="shared-intake-safety">Only share files you trust. The sender/source is not independently verified. Staged content expires automatically.</p>
+    </div>
+  </dialog>
+  <dialog id="deleteAccountDialog" class="account-delete-dialog" aria-labelledby="deleteAccountHeading">
+    <form id="deleteAccountForm">
+      <span class="section-kicker">ACCOUNT &amp; PRIVACY</span>
+      <h2 id="deleteAccountHeading">Delete account and saved data?</h2>
+      <p>This removes your BolKeResolve account, saved cases, active evidence files and linked app records from the active database. It cannot recall downloaded exports, information already sent to external services, or host backups.</p>
+      <label class="field account-delete-password" for="deleteAccountPassword"><span>Confirm your current password</span><input id="deleteAccountPassword" type="password" autocomplete="current-password" maxlength="128" required></label>
+      <label class="check-row account-delete-confirm"><input type="checkbox" id="deleteAccountConfirm"><span>I understand this action cannot be undone.</span></label>
+      <p id="deleteAccountError" class="form-error account-delete-error" role="alert" hidden></p>
+      <div class="account-delete-actions"><button type="button" class="button button-quiet" id="deleteAccountCancelButton">Keep my account</button><button type="submit" class="button account-delete-submit" id="deleteAccountSubmitButton">Delete account and data</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

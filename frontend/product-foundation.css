@@ -1,0 +1,79 @@
+/* Product foundation release: readable type, case evidence relationships and reconciliation review. */
+:root {
+  --bkr-text: #23463d;
+  --bkr-muted: #65796f;
+  --bkr-border: #e2e7de;
+  --bkr-soft: #f5f7f1;
+  --bkr-primary: #0b4a3e;
+  --bkr-body-size: 16px;
+}
+html { font-size: 16px; }
+body { font-size: var(--bkr-body-size); line-height: 1.6; color: var(--bkr-text); }
+p, li, label { line-height: 1.65; }
+button, input, select, textarea { font: inherit; }
+button, input, select { min-height: 40px; }
+textarea { line-height: 1.6; }
+small, .micro-copy, .eyebrow, .kicker { line-height: 1.55; }
+:focus-visible { outline: 3px solid rgba(25, 145, 116, .48); outline-offset: 2px; }
+
+/* The live workspace uses one consistent two-column grid; the transcript scrolls inside its card. */
+.live-room-view .live-room-workspace { grid-template-columns: minmax(0, 1.18fr) minmax(360px, .92fr); gap: 22px; }
+.live-room-view .live-room-panel { min-width: 0; }
+.live-room-view .live-room-panel-head { align-items: flex-start; }
+.live-room-view .live-room-panel-head h2 { font-size: clamp(1.35rem, 2vw, 1.75rem); line-height: 1.18; }
+.live-room-view .live-room-transcript { max-height: min(48vh, 520px); min-height: 180px; padding: 12px 22px 18px; }
+.live-room-view .live-room-turn { max-width: min(90%, 76ch); font-size: 15px; line-height: 1.7; padding: 13px 15px; }
+.live-room-view .live-room-turn-label { font-size: 11px !important; letter-spacing: .07em; }
+.live-room-view .live-room-composer input { font-size: 15px; }
+.live-room-view .live-room-guidance-reason,
+.live-room-view .live-room-next-action p,
+.live-room-view .live-room-question-host,
+.live-room-view .live-room-evidence-request p { font-size: 15px; line-height: 1.7; }
+.live-room-view .live-room-kicker,
+.live-room-view .live-room-boundary,
+.live-room-view .live-room-evidence-item small,
+.live-room-view .live-room-mic-label { font-size: 12px !important; }
+.live-room-view .live-room-guidance-panel { overflow-wrap: anywhere; }
+.live-room-view .live-room-evidence-head-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.live-room-view .live-room-evidence-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.live-room-view .live-room-evidence-filters button { min-height: 38px; padding: 7px 12px; border: 1px solid var(--bkr-border); border-radius: 999px; background: #fffefa; color: var(--bkr-text); font-size: 13px; }
+.live-room-view .live-room-evidence-filters button.is-active { background: #e8f3e9; border-color: #afd4c0; }
+.live-room-view .live-room-evidence-list { min-width: 0; }
+.live-room-view .live-room-evidence-card { min-width: 0; overflow: hidden; }
+.live-room-view .live-room-evidence-content { min-width: 0; }
+.live-room-view .live-room-evidence-content > b { display: block; overflow-wrap: anywhere; font-size: 15px; line-height: 1.45; }
+.live-room-view .live-room-evidence-integrity { flex-wrap: wrap; gap: 6px 12px; }
+.live-room-view .live-room-evidence-integrity span:last-child { color: #8a6240; }
+.live-room-view .live-room-claim-link-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .8fr) auto; gap: 8px; align-items: end; margin-top: 13px; padding-top: 12px; border-top: 1px solid #edf0e9; }
+.live-room-view .live-room-claim-link-form label { display: grid; gap: 5px; color: var(--bkr-muted); font-size: 12px; }
+.live-room-view .live-room-claim-link-form select { width: 100%; min-width: 0; min-height: 38px; padding: 6px 8px; border: 1px solid var(--bkr-border); border-radius: 9px; background: white; color: var(--bkr-text); font-size: 13px; }
+.live-room-view .live-room-claim-link-form button { min-height: 38px; white-space: nowrap; font-size: 12px; }
+.live-room-view .live-room-claim-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.live-room-view .live-room-claim-chip { display: inline-flex; padding: 5px 9px; border: 1px solid #dce8dd; border-radius: 999px; background: #f5f8f2; color: #45685a; font-size: 11px; }
+.live-room-view .live-room-claim-chip.contradicts { border-color: #e8c9c2; background: #fff4f1; color: #9a4e42; }
+.live-room-view .live-room-reconciliation-preview { margin: 16px 0 0; padding: 18px; border: 1px solid #dbe6dc; border-radius: 16px; background: #f9fbf6; }
+.live-room-view .live-room-reconciliation-preview[hidden] { display: none !important; }
+.live-room-view .live-room-recon-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.live-room-view .live-room-recon-head h3 { margin: 5px 0; color: var(--bkr-text); font-size: 19px; }
+.live-room-view .live-room-recon-head p,
+.live-room-view .live-room-recon-actions small { max-width: 72ch; color: var(--bkr-muted); font-size: 13px; line-height: 1.6; }
+.live-room-view .live-room-recon-table-wrap { max-width: 100%; overflow-x: auto; margin: 14px 0; border: 1px solid var(--bkr-border); border-radius: 10px; background: white; }
+.live-room-view .live-room-recon-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.live-room-view .live-room-recon-table th,
+.live-room-view .live-room-recon-table td { padding: 9px 11px; border-bottom: 1px solid #edf0e9; text-align: left; white-space: nowrap; }
+.live-room-view .live-room-recon-table th { color: #587166; background: #f3f6f0; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+.live-room-view .live-room-recon-table td input { min-height: 18px; width: 18px; }
+.live-room-view .live-room-recon-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.live-room-view .live-room-recon-actions small { flex: 1 1 260px; }
+.live-room-view .live-room-recon-loading { color: var(--bkr-muted); font-size: 14px; }
+
+@media (max-width: 1120px) {
+  .live-room-view .live-room-workspace { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  .live-room-view .live-room-claim-link-form { grid-template-columns: minmax(0, 1fr); }
+  .live-room-view .live-room-claim-link-form button { width: 100%; }
+  .live-room-view .live-room-transcript { max-height: 48vh; }
+  .live-room-view .live-room-turn { max-width: 96%; }
+  .live-room-view .live-room-reconciliation-preview { padding: 13px; }
+}
