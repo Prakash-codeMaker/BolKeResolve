@@ -61,20 +61,20 @@ People often have the information they need, but it is scattered—and it is not
 ### See the product
 
 <p align="center">
-  <a href="docs/assets/readme/issue-intake.webp">
-    <img src="docs/assets/readme/issue-intake.webp" alt="BolKeResolve issue intake screen with common payment and refund paths" width="48%" />
+  <a href="docs/assets/readme/issue-intake-preview.svg">
+    <img src="docs/assets/readme/issue-intake-preview.svg" alt="BolKeResolve issue intake screen with common payment and refund paths" width="48%" />
   </a>
-  <a href="docs/assets/readme/guided-chat.webp">
-    <img src="docs/assets/readme/guided-chat.webp" alt="BolKeResolve Guided Chat with issue suggestions and voice or text input" width="48%" />
+  <a href="docs/assets/readme/guided-chat-preview.svg">
+    <img src="docs/assets/readme/guided-chat-preview.svg" alt="BolKeResolve Guided Chat with issue suggestions and voice or text input" width="48%" />
   </a>
 </p>
 <p align="center">
-  <a href="docs/assets/readme/live-workspace-preview.webp">
-    <img src="docs/assets/readme/live-workspace-preview.webp" alt="BolKeResolve Live Resolution case workspace showing conversation, evidence and next-step guidance" width="82%" />
+  <a href="docs/assets/readme/live-workspace-preview.svg">
+    <img src="docs/assets/readme/live-workspace-preview.svg" alt="BolKeResolve Live Resolution case workspace showing conversation, evidence and next-step guidance" width="82%" />
   </a>
 </p>
 
-These are screenshots of the product interface. Names, amounts and case details shown in demonstrations are illustrative; they are not customer testimonials or proof of a real payment outcome.
+These are clean, scalable interface previews recreated from the product’s current screens. Names, amounts and case details are illustrative; they are not customer testimonials or proof of a real payment outcome.
 
 ## What makes the case record useful?
 
