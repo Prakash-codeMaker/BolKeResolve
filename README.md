@@ -61,11 +61,20 @@ People often have the information they need, but it is scattered—and it is not
 ### See the product
 
 <p align="center">
-  <img src="frontend/assets/hero-fallback.jpg" alt="BolKeResolve homepage visual" width="49%" />
-  <img src="frontend/assets/bolke-guide.webp" alt="BolKeResolve guide character used in the product interface" width="49%" />
+  <a href="docs/assets/readme/issue-intake.webp">
+    <img src="docs/assets/readme/issue-intake.webp" alt="BolKeResolve issue intake screen with common payment and refund paths" width="48%" />
+  </a>
+  <a href="docs/assets/readme/guided-chat.webp">
+    <img src="docs/assets/readme/guided-chat.webp" alt="BolKeResolve Guided Chat with issue suggestions and voice or text input" width="48%" />
+  </a>
+</p>
+<p align="center">
+  <a href="docs/assets/readme/live-workspace-preview.webp">
+    <img src="docs/assets/readme/live-workspace-preview.webp" alt="BolKeResolve Live Resolution case workspace showing conversation, evidence and next-step guidance" width="82%" />
+  </a>
 </p>
 
-The images above are product artwork and illustrative visuals—not customer testimonials or proof of a real payment outcome. The application uses synthetic examples for its read-only demo.
+These are screenshots of the product interface. Names, amounts and case details shown in demonstrations are illustrative; they are not customer testimonials or proof of a real payment outcome.
 
 ## What makes the case record useful?
 
