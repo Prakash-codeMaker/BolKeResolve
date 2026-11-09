@@ -1755,10 +1755,16 @@ def case_bundle(con: sqlite3.Connection, case_id: str) -> dict:
 
 
 def auth_email_delivery_capability() -> dict[str, object]:
-    """Return non-secret readiness for one-time verification/recovery email delivery."""
-    host = os.getenv("BOLKE_SMTP_HOST", "").strip()
-    sender = os.getenv("BOLKE_SMTP_FROM", "").strip()
+    """Return non-secret readiness for one-time verification/recovery email delivery.
+
+    Resend's HTTPS API is preferred when RESEND_API_KEY is present. SMTP remains
+    available as a fallback for hosts that permit outbound SMTP connections.
+    """
+    sender = (os.getenv("BOLKE_EMAIL_FROM", "").strip()
+              or os.getenv("BOLKE_SMTP_FROM", "").strip())
     origin = os.getenv("BOLKE_PUBLIC_ORIGIN", "").strip().rstrip("/")
+    resend_ready = bool(os.getenv("RESEND_API_KEY", "").strip())
+    host = os.getenv("BOLKE_SMTP_HOST", "").strip()
     try:
         port = int(os.getenv("BOLKE_SMTP_PORT", "587"))
     except ValueError:
@@ -1766,11 +1772,13 @@ def auth_email_delivery_capability() -> dict[str, object]:
     ssl_enabled = os.getenv("BOLKE_SMTP_USE_SSL", "false").strip().lower() in {"1", "true", "yes", "on"}
     starttls_enabled = os.getenv("BOLKE_SMTP_USE_STARTTLS", "true").strip().lower() in {"1", "true", "yes", "on"}
     secure_transport = ssl_enabled or starttls_enabled
+    smtp_ready = bool(host and 1 <= port <= 65535 and secure_transport)
     origin_ok = bool(re.match(r"^https://[^/]+$", origin)) if DEPLOYMENT_ENV == "production" else bool(re.match(r"^https?://[^/]+$", origin))
     sender_ok = bool(AUTH_EMAIL_RE.fullmatch(sender))
     return {
-        "configured": bool(host and 1 <= port <= 65535 and sender_ok and origin_ok and secure_transport),
-        "host_configured": bool(host),
+        "configured": bool((resend_ready or smtp_ready) and sender_ok and origin_ok),
+        "resend_api_configured": resend_ready,
+        "smtp_configured": smtp_ready,
         "sender_configured": sender_ok,
         "public_origin_configured": origin_ok,
         "secure_transport_configured": secure_transport,
@@ -1783,11 +1791,19 @@ def _auth_email_link(token: str, purpose: str) -> str:
     return f"{origin}/?{parameter}={quote(token, safe='')}"
 
 
+def _email_delivery_error_label(exc: Exception) -> str:
+    """Produce a log-safe provider failure label without addresses or response bodies."""
+    if isinstance(exc, httpx.HTTPStatusError):
+        return f"resend_http_{exc.response.status_code}"
+    return type(exc).__name__
+
+
 def send_auth_action_email(email: str, token: str, purpose: str) -> None:
-    """Send a short-lived one-time link; never log the raw link or token."""
+    """Send a short-lived one-time link through Resend HTTPS or configured SMTP."""
     capability = auth_email_delivery_capability()
     if not capability["configured"]:
         raise RuntimeError("Account email delivery is not configured.")
+
     link = _auth_email_link(token, purpose)
     if purpose == "email_verification":
         subject = "Verify your BolKeResolve email"
@@ -1797,17 +1813,47 @@ def send_auth_action_email(email: str, token: str, purpose: str) -> None:
         subject = "Reset your BolKeResolve password"
         intro = "A password reset was requested for your BolKeResolve account."
         expiry = "This link expires in 30 minutes and can be used once. If you did not request it, you can ignore this email."
-    message = EmailMessage()
-    message["Subject"] = subject
-    message["From"] = os.getenv("BOLKE_SMTP_FROM", "").strip()
-    message["To"] = email
-    message.set_content(f"{intro}\n\nOpen this link: {link}\n\n{expiry}\n\nBolKeResolve will never ask for your banking PIN or OTP.")
+    body = f"{intro}\n\nOpen this link: {link}\n\n{expiry}\n\nBolKeResolve will never ask for your banking PIN or OTP."
+    sender = (os.getenv("BOLKE_EMAIL_FROM", "").strip()
+              or os.getenv("BOLKE_SMTP_FROM", "").strip())
+
+    resend_api_key = os.getenv("RESEND_API_KEY", "").strip()
+    if resend_api_key:
+        # HTTPS avoids Render Free's outbound SMTP port restrictions.
+        response = httpx.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {resend_api_key}",
+                "Content-Type": "application/json",
+                "User-Agent": "BolKeResolve/1.0",
+                "Idempotency-Key": hashlib.sha256(f"{purpose}:{token}".encode("utf-8")).hexdigest(),
+            },
+            json={"from": sender, "to": [email], "subject": subject, "text": body},
+            timeout=15.0,
+        )
+        # A provider HTTP error is deliberately re-raised without its response body;
+        # response bodies can contain recipient information.
+        response.raise_for_status()
+        try:
+            provider_result = response.json()
+        except ValueError as exc:
+            raise RuntimeError("Resend returned an invalid response.") from exc
+        if not isinstance(provider_result, dict) or not provider_result.get("id"):
+            raise RuntimeError("Resend did not confirm an email id.")
+        return
+
+    # SMTP fallback for deployments that allow outbound SMTP.
     host = os.getenv("BOLKE_SMTP_HOST", "").strip()
     port = int(os.getenv("BOLKE_SMTP_PORT", "587"))
     username = os.getenv("BOLKE_SMTP_USERNAME", "")
     password = os.getenv("BOLKE_SMTP_PASSWORD", "")
     use_ssl = os.getenv("BOLKE_SMTP_USE_SSL", "false").strip().lower() in {"1", "true", "yes", "on"}
     use_starttls = os.getenv("BOLKE_SMTP_USE_STARTTLS", "true").strip().lower() in {"1", "true", "yes", "on"}
+    message = EmailMessage()
+    message["Subject"] = subject
+    message["From"] = sender
+    message["To"] = email
+    message.set_content(body)
     context = ssl.create_default_context()
     if use_ssl:
         with smtplib.SMTP_SSL(host, port, timeout=12, context=context) as smtp:
@@ -1900,7 +1946,7 @@ def register_account(request: Request, payload: AuthRegisterRequest, response: R
         except Exception as exc:
             with get_db() as con:
                 con.execute("DELETE FROM users WHERE user_id=? AND email_verified=0", (user_id,))
-            logger.warning("Account verification email could not be delivered (%s)", type(exc).__name__)
+            logger.warning("Account verification email could not be delivered (%s)", _email_delivery_error_label(exc))
             raise HTTPException(status_code=503, detail="We could not send the verification email. Please check the site configuration or try again later.")
         return {"auth_required": AUTH_REQUIRED, "accounts_enabled": True, "verification_required": True, "message": "Check your inbox for a verification link. It expires in 30 minutes.", "user": {"user_id": user_id, "email": email, "created_at": created, "email_verified": False}}
     set_session_cookie(response, session_token)
@@ -1965,7 +2011,7 @@ def resend_account_verification(request: Request, payload: AuthEmailRequest) -> 
         try:
             send_auth_action_email(email, token, "email_verification")
         except Exception as exc:
-            logger.warning("Account verification resend failed (%s)", type(exc).__name__)
+            logger.warning("Account verification resend failed (%s)", _email_delivery_error_label(exc))
     return {"ok": True, "message": "If the account needs verification, an email will be sent."}
 
 
@@ -1984,7 +2030,7 @@ def request_password_reset(request: Request, payload: AuthEmailRequest) -> dict:
         try:
             send_auth_action_email(email, token, "password_reset")
         except Exception as exc:
-            logger.warning("Password reset email could not be delivered (%s)", type(exc).__name__)
+            logger.warning("Password reset email could not be delivered (%s)", _email_delivery_error_label(exc))
     # Identical response for unknown and known addresses prevents account enumeration.
     return {"ok": True, "message": "If an account exists for that address, a password reset link will be sent."}
 
