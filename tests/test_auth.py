@@ -405,6 +405,42 @@ class AuthenticationIsolationTests(unittest.TestCase):
         self.assertTrue(kwargs["headers"].get("Idempotency-Key"))
         response.raise_for_status.assert_called_once()
 
+    def test_gmail_apps_script_counts_as_configured_without_custom_domain_or_smtp(self):
+        with patch.dict(os.environ, {
+            "RESEND_API_KEY": "",
+            "BOLKE_GMAIL_SCRIPT_URL": "https://script.google.com/macros/s/test-deployment/exec",
+            "BOLKE_GMAIL_SCRIPT_TOKEN": "synthetic-test-token-with-more-than-32-characters",
+            "BOLKE_EMAIL_FROM": "owner@gmail.com",
+            "BOLKE_SMTP_HOST": "",
+            "BOLKE_PUBLIC_ORIGIN": "http://testserver",
+        }, clear=False):
+            capability = main.auth_email_delivery_capability()
+        self.assertTrue(capability["configured"])
+        self.assertTrue(capability["gmail_apps_script_configured"])
+        self.assertEqual(capability["provider"], "gmail_apps_script")
+        self.assertFalse(capability["smtp_configured"])
+
+    def test_gmail_apps_script_delivery_uses_https_bridge(self):
+        response = unittest.mock.MagicMock()
+        response.json.return_value = {"ok": True, "messageId": "synthetic-message-id"}
+        with patch.dict(os.environ, {
+            "RESEND_API_KEY": "",
+            "BOLKE_GMAIL_SCRIPT_URL": "https://script.google.com/macros/s/test-deployment/exec",
+            "BOLKE_GMAIL_SCRIPT_TOKEN": "synthetic-test-token-with-more-than-32-characters",
+            "BOLKE_EMAIL_FROM": "owner@gmail.com",
+            "BOLKE_SMTP_HOST": "",
+            "BOLKE_PUBLIC_ORIGIN": "http://testserver",
+        }, clear=False), patch.object(main.httpx, "post", return_value=response) as post:
+            main.send_auth_action_email("recipient@example.test", "synthetic-token", "email_verification")
+        post.assert_called_once()
+        args, kwargs = post.call_args
+        self.assertEqual(args[0], "https://script.google.com/macros/s/test-deployment/exec")
+        self.assertEqual(kwargs["json"]["token"], "synthetic-test-token-with-more-than-32-characters")
+        self.assertEqual(kwargs["json"]["to"], "recipient@example.test")
+        self.assertIn("verify_email=synthetic-token", kwargs["json"]["text"])
+        self.assertTrue(kwargs["follow_redirects"])
+        response.raise_for_status.assert_called_once()
+
     def test_production_signup_requires_configured_email_delivery(self):
         from unittest.mock import patch
         previous = main.EMAIL_VERIFICATION_REQUIRED
