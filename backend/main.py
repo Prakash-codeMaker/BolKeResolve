@@ -80,6 +80,7 @@ CURRENT_USER_ID: ContextVar[str | None] = ContextVar("bolke_current_user_id", de
 AUTH_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 _AUTH_ATTEMPTS: dict[str, list[float]] = {}
 _VOICE_ATTEMPTS: dict[str, list[float]] = {}
+_LIVE_VOICE_TICKETS: dict[str, dict] = {}
 _PREVIEW_ATTEMPTS: dict[str, list[float]] = {}
 
 logger = logging.getLogger("bolkeresolve.voice")
@@ -5230,6 +5231,38 @@ def record_live_room_session_event(case_id: str, request: LiveRoomSessionEventRe
         return case_bundle(con, normalized_id)
 
 
+@app.post("/api/live-room/voice-ticket")
+def create_live_voice_ticket(request: Request):
+    """Issue a one-use, 45-second ticket for the cross-origin Render WebSocket.
+
+    The browser obtains this over the authenticated same-origin API proxy. The
+    short-lived ticket lets the direct WebSocket validate the existing account
+    session without exposing the HttpOnly session cookie to JavaScript.
+    """
+    session_token = request.cookies.get(SESSION_COOKIE_NAME, "")
+    user_id = lookup_session_user(session_token) if session_token else None
+    if AUTH_REQUIRED and not user_id:
+        raise HTTPException(status_code=401, detail="Please sign in again to use live voice.")
+    if not os.getenv("GNANI_API_KEY", "").strip():
+        raise HTTPException(status_code=503, detail="Live voice is not configured on this server yet. You can still type and upload evidence.")
+
+    now = time.monotonic()
+    for old_ticket, payload in list(_LIVE_VOICE_TICKETS.items()):
+        if payload.get("expires_at", 0) <= now:
+            _LIVE_VOICE_TICKETS.pop(old_ticket, None)
+    if len(_LIVE_VOICE_TICKETS) >= 2000:
+        raise HTTPException(status_code=503, detail="Live voice is busy. Please retry in a moment.")
+
+    ticket = secrets.token_urlsafe(32)
+    _LIVE_VOICE_TICKETS[ticket] = {
+        "session_token": session_token,
+        "user_id": user_id,
+        "origin": request.headers.get("origin", "").strip().rstrip("/"),
+        "expires_at": now + 45,
+    }
+    return {"ticket": ticket, "expires_in": 45}
+
+
 @app.websocket("/api/live-room/voice")
 async def live_room_voice_proxy(websocket: WebSocket):
     """Same-origin WebSocket proxy for Gnani Prisma; keeps the provider key server-side."""
@@ -5239,7 +5272,24 @@ async def live_room_voice_proxy(websocket: WebSocket):
     if not valid_origin:
         await websocket.close(code=4403, reason="Origin not allowed")
         return
-    if AUTH_REQUIRED:
+    ticket = websocket.query_params.get("ticket", "").strip()
+    ticket_data = _LIVE_VOICE_TICKETS.pop(ticket, None) if ticket else None
+    if ticket:
+        if (
+            not ticket_data
+            or ticket_data.get("expires_at", 0) <= time.monotonic()
+            or ticket_data.get("origin", "") != origin.rstrip("/")
+        ):
+            await websocket.close(code=4401, reason="Live voice authorization expired. Restart voice.")
+            return
+        session_token = str(ticket_data.get("session_token", ""))
+        user_id = lookup_session_user(session_token) if session_token else None
+        expected_user_id = ticket_data.get("user_id")
+        if (expected_user_id and user_id != expected_user_id) or (AUTH_REQUIRED and not user_id):
+            await websocket.close(code=4401, reason="Sign in again to use live voice")
+            return
+    elif AUTH_REQUIRED:
+        # Preserve same-origin/local compatibility for existing clients.
         token = websocket.cookies.get(SESSION_COOKIE_NAME, "")
         user_id = lookup_session_user(token)
         public_enabled = os.getenv("BOLKE_PUBLIC_VOICE_ENABLED", "false").strip().lower() in {"1", "true", "yes", "on"}
