@@ -1806,6 +1806,10 @@ def _email_delivery_error_label(exc: Exception) -> str:
     """Produce a log-safe provider failure label without addresses or response bodies."""
     if isinstance(exc, httpx.HTTPStatusError):
         return f"email_api_http_{exc.response.status_code}"
+    if isinstance(exc, RuntimeError):
+        label = str(exc).strip()
+        if re.fullmatch(r"gmail_bridge_[a-z_]{1,64}", label):
+            return label
     return type(exc).__name__
 
 
@@ -1864,9 +1868,23 @@ def send_auth_action_email(email: str, token: str, purpose: str) -> None:
         try:
             provider_result = response.json()
         except ValueError as exc:
-            raise RuntimeError("Gmail email bridge returned an invalid response.") from exc
-        if not isinstance(provider_result, dict) or provider_result.get("ok") is not True:
-            raise RuntimeError("Gmail email bridge did not confirm delivery.")
+            raise RuntimeError("gmail_bridge_invalid_response") from exc
+        if not isinstance(provider_result, dict):
+            raise RuntimeError("gmail_bridge_invalid_response")
+        if provider_result.get("ok") is not True:
+            # The Apps Script bridge returns a fixed, non-sensitive error code.
+            # Never log its response body, recipient, email content, or token.
+            bridge_error = str(provider_result.get("error") or "unknown")
+            allowed_bridge_errors = {
+                "unauthorized",
+                "invalid_request",
+                "invalid_message",
+                "daily_quota_exceeded",
+                "send_failed",
+            }
+            if bridge_error not in allowed_bridge_errors:
+                bridge_error = "unknown"
+            raise RuntimeError(f"gmail_bridge_{bridge_error}")
         return
 
     # SMTP fallback for deployments that allow outbound SMTP.
