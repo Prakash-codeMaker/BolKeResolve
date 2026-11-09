@@ -370,6 +370,40 @@ class AuthenticationIsolationTests(unittest.TestCase):
 
 
 
+    def test_resend_counts_as_configured_without_smtp(self):
+        with patch.dict(os.environ, {
+            "RESEND_API_KEY": "re_test_synthetic_key",
+            "BOLKE_EMAIL_FROM": "noreply@example.com",
+            "BOLKE_SMTP_FROM": "",
+            "BOLKE_SMTP_HOST": "",
+            "BOLKE_PUBLIC_ORIGIN": "http://testserver",
+        }, clear=False):
+            capability = main.auth_email_delivery_capability()
+        self.assertTrue(capability["configured"])
+        self.assertTrue(capability["resend_api_configured"])
+        self.assertFalse(capability["smtp_configured"])
+
+    def test_resend_email_uses_https_api_and_does_not_require_smtp(self):
+        response = unittest.mock.MagicMock()
+        response.json.return_value = {"id": "email_test_123"}
+        with patch.dict(os.environ, {
+            "RESEND_API_KEY": "re_test_synthetic_key",
+            "BOLKE_EMAIL_FROM": "noreply@example.com",
+            "BOLKE_SMTP_FROM": "",
+            "BOLKE_SMTP_HOST": "",
+            "BOLKE_PUBLIC_ORIGIN": "http://testserver",
+        }, clear=False), patch.object(main.httpx, "post", return_value=response) as post:
+            main.send_auth_action_email("recipient@example.test", "synthetic-token", "email_verification")
+        post.assert_called_once()
+        args, kwargs = post.call_args
+        self.assertEqual(args[0], "https://api.resend.com/emails")
+        self.assertEqual(kwargs["headers"]["Authorization"], "Bearer re_test_synthetic_key")
+        self.assertEqual(kwargs["json"]["from"], "noreply@example.com")
+        self.assertEqual(kwargs["json"]["to"], ["recipient@example.test"])
+        self.assertIn("verify_email=synthetic-token", kwargs["json"]["text"])
+        self.assertTrue(kwargs["headers"].get("Idempotency-Key"))
+        response.raise_for_status.assert_called_once()
+
     def test_production_signup_requires_configured_email_delivery(self):
         from unittest.mock import patch
         previous = main.EMAIL_VERIFICATION_REQUIRED
