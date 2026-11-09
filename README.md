@@ -178,6 +178,17 @@ Do not deploy the current SQLite/local-file backend as a Vercel Function and exp
 
 Follow the repository's [Vercel + Render deployment guide](VERCEL_DEPLOYMENT_GUIDE.md). Before enabling real users, validate account registration, email delivery, uploads, evidence persistence after restart, exports and the Live Resolution WebSocket on the deployed Preview URL.
 
+## Account email delivery
+
+The account verification and password-reset sender prefers the Resend HTTPS API, which works on Render Free without outbound SMTP ports. SMTP remains as a fallback for hosts that permit it.
+
+1. Add a sending domain in [Resend Domains](https://resend.com/domains) and complete the DNS verification records shown by Resend (including SPF and DKIM).
+2. Create a Resend API key and save it as the server-side Render environment variable `RESEND_API_KEY`. Never commit the key to GitHub or expose it in frontend code.
+3. Set `BOLKE_EMAIL_FROM` to a bare sender address on that verified domain, for example `support@yourdomain.example`. Set `BOLKE_PUBLIC_ORIGIN` to the exact HTTPS frontend origin.
+4. When `RESEND_API_KEY` is present, BolKeResolve uses the Resend API; otherwise it attempts the configured SMTP fallback.
+
+A Resend test sender is for development/testing according to the provider's recipient restrictions; configure and verify your own domain before enabling email for public sign-ups. See the [Resend send-email API](https://resend.com/docs/api-reference/emails/send-email) and [domain verification guide](https://resend.com/docs/dashboard/domains/introduction).
+
 ## Privacy, safety and capability boundaries
 
 BolKeResolve is a case-organisation and guidance tool—not a bank, payment network, merchant support agent or legal representative.
