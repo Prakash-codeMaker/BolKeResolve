@@ -1777,6 +1777,7 @@ def auth_email_delivery_capability() -> dict[str, object]:
     sender_ok = bool(AUTH_EMAIL_RE.fullmatch(sender))
     return {
         "configured": bool((resend_ready or smtp_ready) and sender_ok and origin_ok),
+        "provider": "resend" if resend_ready else ("smtp" if smtp_ready else "none"),
         "resend_api_configured": resend_ready,
         "smtp_configured": smtp_ready,
         "sender_configured": sender_ok,
@@ -3446,6 +3447,7 @@ def public_config(request: Request) -> dict:
         "accounts_enabled": AUTH_ENABLED,
         "email_verification_required": EMAIL_VERIFICATION_REQUIRED,
         "auth_email_delivery_configured": bool(auth_email_delivery_capability()["configured"]),
+        "auth_email_delivery_provider": auth_email_delivery_capability()["provider"],
         "guided_voice_enabled": guided_voice_enabled,
         "multilingual_guidance_available": agent_assist.configured(),
         "visual_evidence_ai_available": agent_assist.configured(),
