@@ -867,6 +867,53 @@ class LiveResolutionRoomTests(unittest.TestCase):
         self.assertIn("camera=(self)", home.headers.get("permissions-policy", ""))
         self.assertIn("wss:", home.headers.get("content-security-policy", ""))
 
+    def test_live_voice_ticket_authorizes_direct_websocket_once(self):
+        import asyncio
+        from unittest.mock import AsyncMock
+
+        class FakeProviderSocket:
+            async def recv(self):
+                return json.dumps({"type": "connected"})
+
+            async def send(self, payload):
+                return None
+
+            async def close(self):
+                return None
+
+            async def __aiter__(self):
+                while True:
+                    await asyncio.sleep(60)
+                    yield json.dumps({"type": "processing"})
+
+        with patch.dict(os.environ, {"GNANI_API_KEY": "test-key-not-real"}), patch.object(
+            main.websockets, "connect", new=AsyncMock(return_value=FakeProviderSocket())
+        ):
+            ticket_response = self.client.post(
+                "/api/live-room/voice-ticket",
+                headers={"origin": "http://testserver"},
+            )
+            self.assertEqual(ticket_response.status_code, 200, ticket_response.text)
+            ticket = ticket_response.json()["ticket"]
+            self.assertGreaterEqual(ticket_response.json()["expires_in"], 1)
+            self.assertIn(ticket, main._LIVE_VOICE_TICKETS)
+
+            with self.client.websocket_connect(
+                f"/api/live-room/voice?ticket={ticket}&language_code=indic-auto&sample_rate=48000&voice_profile=laptop",
+                headers={"origin": "http://testserver"},
+            ) as socket:
+                self.assertEqual(socket.receive_json()["type"], "connected")
+
+            self.assertNotIn(ticket, main._LIVE_VOICE_TICKETS)
+
+            replay = self.client.websocket_connect(
+                f"/api/live-room/voice?ticket={ticket}&language_code=indic-auto&sample_rate=48000",
+                headers={"origin": "http://testserver"},
+            )
+            with self.assertRaises(Exception):
+                with replay:
+                    replay.receive_json()
+
     def test_live_stt_websocket_reports_missing_provider_key_without_faking_transcription(self):
         with patch.dict(os.environ, {"GNANI_API_KEY": ""}):
             with self.client.websocket_connect(

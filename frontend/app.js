@@ -2362,9 +2362,17 @@ async function liveRoomStartAudioPipeline(){
     await liveRoomAudioContext.resume();
   }
   const sampleRate=Number(liveRoomAudioContext.sampleRate||48000);
-  const protocol=location.protocol==='https:'?'wss:':'ws:';
-  const socketUrl=`${protocol}//${location.host}/api/live-room/voice?language_code=${encodeURIComponent(selected)}&sample_rate=${sampleRate}&voice_profile=${encodeURIComponent(voiceProfile)}`;
-  const socket=new WebSocket(socketUrl);liveRoomSocket=socket;socket.binaryType='arraybuffer';
+  // Obtain a one-use ticket through the same-origin API (the HttpOnly session
+  // cookie never enters JavaScript), then connect directly to Render. Vercel
+  // static rewrites do not reliably proxy WebSocket upgrade requests.
+  const authorization=await api('/api/live-room/voice-ticket',{method:'POST'});
+  if(!authorization?.ticket)throw new Error('The server did not authorize live voice. Sign in again or continue by typing.');
+  const socketUrl=new URL('wss://bolkeresolve.onrender.com/api/live-room/voice');
+  socketUrl.searchParams.set('ticket',authorization.ticket);
+  socketUrl.searchParams.set('language_code',selected);
+  socketUrl.searchParams.set('sample_rate',String(sampleRate));
+  socketUrl.searchParams.set('voice_profile',voiceProfile);
+  const socket=new WebSocket(socketUrl.toString());liveRoomSocket=socket;socket.binaryType='arraybuffer';
   socket.addEventListener('message',event=>liveRoomHandleProviderMessage(event.data));
   socket.addEventListener('open',()=>{
     const finishButton=$('#liveRoomFinishSpeakingButton');if(finishButton)finishButton.disabled=false;
