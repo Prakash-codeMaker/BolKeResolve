@@ -1824,7 +1824,7 @@ def send_auth_action_email(email: str, token: str, purpose: str) -> None:
         subject = "Reset your BolKeResolve password"
         intro = "A password reset was requested for your BolKeResolve account."
         expiry = "This link expires in 30 minutes and can be used once. If you did not request it, you can ignore this email."
-    body = f"{intro}\\n\\nOpen this link: {link}\\n\\n{expiry}\\n\\nBolKeResolve will never ask for your banking PIN or OTP."
+    body = f"{intro}\n\nOpen this link: {link}\n\n{expiry}\n\nBolKeResolve will never ask for your banking PIN or OTP."
     sender = (os.getenv("BOLKE_EMAIL_FROM", "").strip()
               or os.getenv("BOLKE_SMTP_FROM", "").strip())
 
