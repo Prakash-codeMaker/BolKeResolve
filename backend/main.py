@@ -1755,15 +1755,18 @@ def case_bundle(con: sqlite3.Connection, case_id: str) -> dict:
 
 
 def auth_email_delivery_capability() -> dict[str, object]:
-    """Return non-secret readiness for one-time verification/recovery email delivery.
-
-    Resend's HTTPS API is preferred when RESEND_API_KEY is present. SMTP remains
-    available as a fallback for hosts that permit outbound SMTP connections.
-    """
+    """Return non-secret readiness for one-time verification/recovery email delivery."""
     sender = (os.getenv("BOLKE_EMAIL_FROM", "").strip()
               or os.getenv("BOLKE_SMTP_FROM", "").strip())
     origin = os.getenv("BOLKE_PUBLIC_ORIGIN", "").strip().rstrip("/")
     resend_ready = bool(os.getenv("RESEND_API_KEY", "").strip())
+    gmail_script_url = os.getenv("BOLKE_GMAIL_SCRIPT_URL", "").strip()
+    gmail_script_token = os.getenv("BOLKE_GMAIL_SCRIPT_TOKEN", "").strip()
+    gmail_script_ready = bool(
+        gmail_script_url.startswith("https://script.google.com/macros/s/")
+        and gmail_script_url.endswith("/exec")
+        and len(gmail_script_token) >= 32
+    )
     host = os.getenv("BOLKE_SMTP_HOST", "").strip()
     try:
         port = int(os.getenv("BOLKE_SMTP_PORT", "587"))
@@ -1775,10 +1778,17 @@ def auth_email_delivery_capability() -> dict[str, object]:
     smtp_ready = bool(host and 1 <= port <= 65535 and secure_transport)
     origin_ok = bool(re.match(r"^https://[^/]+$", origin)) if DEPLOYMENT_ENV == "production" else bool(re.match(r"^https?://[^/]+$", origin))
     sender_ok = bool(AUTH_EMAIL_RE.fullmatch(sender))
+    provider = (
+        "resend" if resend_ready else
+        "gmail_apps_script" if gmail_script_ready else
+        "smtp" if smtp_ready else
+        "none"
+    )
     return {
-        "configured": bool((resend_ready or smtp_ready) and sender_ok and origin_ok),
-        "provider": "resend" if resend_ready else ("smtp" if smtp_ready else "none"),
+        "configured": bool(provider != "none" and sender_ok and origin_ok),
+        "provider": provider,
         "resend_api_configured": resend_ready,
+        "gmail_apps_script_configured": gmail_script_ready,
         "smtp_configured": smtp_ready,
         "sender_configured": sender_ok,
         "public_origin_configured": origin_ok,
@@ -1795,12 +1805,12 @@ def _auth_email_link(token: str, purpose: str) -> str:
 def _email_delivery_error_label(exc: Exception) -> str:
     """Produce a log-safe provider failure label without addresses or response bodies."""
     if isinstance(exc, httpx.HTTPStatusError):
-        return f"resend_http_{exc.response.status_code}"
+        return f"email_api_http_{exc.response.status_code}"
     return type(exc).__name__
 
 
 def send_auth_action_email(email: str, token: str, purpose: str) -> None:
-    """Send a short-lived one-time link through Resend HTTPS or configured SMTP."""
+    """Send a short-lived one-time link through Resend, Gmail bridge, or SMTP."""
     capability = auth_email_delivery_capability()
     if not capability["configured"]:
         raise RuntimeError("Account email delivery is not configured.")
@@ -1814,13 +1824,12 @@ def send_auth_action_email(email: str, token: str, purpose: str) -> None:
         subject = "Reset your BolKeResolve password"
         intro = "A password reset was requested for your BolKeResolve account."
         expiry = "This link expires in 30 minutes and can be used once. If you did not request it, you can ignore this email."
-    body = f"{intro}\n\nOpen this link: {link}\n\n{expiry}\n\nBolKeResolve will never ask for your banking PIN or OTP."
+    body = f"{intro}\\n\\nOpen this link: {link}\\n\\n{expiry}\\n\\nBolKeResolve will never ask for your banking PIN or OTP."
     sender = (os.getenv("BOLKE_EMAIL_FROM", "").strip()
               or os.getenv("BOLKE_SMTP_FROM", "").strip())
 
     resend_api_key = os.getenv("RESEND_API_KEY", "").strip()
     if resend_api_key:
-        # HTTPS avoids Render Free's outbound SMTP port restrictions.
         response = httpx.post(
             "https://api.resend.com/emails",
             headers={
@@ -1832,8 +1841,6 @@ def send_auth_action_email(email: str, token: str, purpose: str) -> None:
             json={"from": sender, "to": [email], "subject": subject, "text": body},
             timeout=15.0,
         )
-        # A provider HTTP error is deliberately re-raised without its response body;
-        # response bodies can contain recipient information.
         response.raise_for_status()
         try:
             provider_result = response.json()
@@ -1841,6 +1848,25 @@ def send_auth_action_email(email: str, token: str, purpose: str) -> None:
             raise RuntimeError("Resend returned an invalid response.") from exc
         if not isinstance(provider_result, dict) or not provider_result.get("id"):
             raise RuntimeError("Resend did not confirm an email id.")
+        return
+
+    gmail_script_url = os.getenv("BOLKE_GMAIL_SCRIPT_URL", "").strip()
+    gmail_script_token = os.getenv("BOLKE_GMAIL_SCRIPT_TOKEN", "").strip()
+    if gmail_script_url and gmail_script_token:
+        response = httpx.post(
+            gmail_script_url,
+            json={"token": gmail_script_token, "to": email, "subject": subject, "text": body},
+            headers={"User-Agent": "BolKeResolve/1.0"},
+            timeout=20.0,
+            follow_redirects=True,
+        )
+        response.raise_for_status()
+        try:
+            provider_result = response.json()
+        except ValueError as exc:
+            raise RuntimeError("Gmail email bridge returned an invalid response.") from exc
+        if not isinstance(provider_result, dict) or provider_result.get("ok") is not True:
+            raise RuntimeError("Gmail email bridge did not confirm delivery.")
         return
 
     # SMTP fallback for deployments that allow outbound SMTP.
