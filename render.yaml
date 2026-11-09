@@ -39,6 +39,10 @@ services:
         sync: false
       - key: BOLKE_EMAIL_FROM
         sync: false
+      - key: BOLKE_GMAIL_SCRIPT_URL
+        sync: false
+      - key: BOLKE_GMAIL_SCRIPT_TOKEN
+        sync: false
       - key: BOLKE_SMTP_HOST
         sync: false
       - key: BOLKE_SMTP_PORT
