@@ -180,14 +180,23 @@ Follow the repository's [Vercel + Render deployment guide](VERCEL_DEPLOYMENT_GUI
 
 ## Account email delivery
 
-The account verification and password-reset sender prefers the Resend HTTPS API, which works on Render Free without outbound SMTP ports. SMTP remains as a fallback for hosts that permit it.
+BolKeResolve supports Resend HTTPS API, a Google Apps Script bridge that sends through the operator's Gmail account (no custom domain required), or SMTP on hosts that permit it. Provider priority is Resend, then Gmail Apps Script, then SMTP.
 
-1. Add a sending domain in [Resend Domains](https://resend.com/domains) and complete the DNS verification records shown by Resend (including SPF and DKIM).
-2. Create a Resend API key and save it as the server-side Render environment variable `RESEND_API_KEY`. Never commit the key to GitHub or expose it in frontend code.
-3. Set `BOLKE_EMAIL_FROM` to a bare sender address on that verified domain, for example `support@yourdomain.example`. Set `BOLKE_PUBLIC_ORIGIN` to the exact HTTPS frontend origin.
-4. When `RESEND_API_KEY` is present, BolKeResolve uses the Resend API; otherwise it attempts the configured SMTP fallback.
+### Gmail without a custom domain (Render Free)
 
-A Resend test sender is for development/testing according to the provider's recipient restrictions; configure and verify your own domain before enabling email for public sign-ups. See the [Resend send-email API](https://resend.com/docs/api-reference/emails/send-email) and [domain verification guide](https://resend.com/docs/dashboard/domains/introduction).
+1. Open [Google Apps Script](https://script.google.com/) while signed in to the Gmail account that should send BolKeResolve emails.
+2. Create a project and paste the contents of [integrations/google-apps-script/Code.gs](integrations/google-apps-script/Code.gs) into its editor.
+3. In Project Settings > Script Properties, add `BOLKE_MAIL_BRIDGE_TOKEN` with a newly generated random value of at least 32 characters. Do not put this secret in GitHub.
+4. Run the `authorizeMailBridge` function once in the editor and approve the MailApp permission.
+5. Select Deploy > New deployment > Web app. Set Execute as to Me and access to Anyone (including anonymous access if that option is shown). Deploy and copy the `/exec` URL.
+6. In Render Environment, set `BOLKE_GMAIL_SCRIPT_URL` to that `/exec` URL, `BOLKE_GMAIL_SCRIPT_TOKEN` to the exact same secret from Script Properties, and `BOLKE_EMAIL_FROM` to the Gmail address of the account that owns the script. Keep `BOLKE_PUBLIC_ORIGIN` as the exact HTTPS frontend origin.
+7. Save the Render variables, allow the service to restart, and check `/api/config` for `auth_email_delivery_provider: gmail_apps_script`. Then test a new account registration and confirm the email arrives.
+
+The bridge checks a shared secret before sending and uses Google's MailApp service. Consumer Gmail Apps Script accounts generally have a daily recipient quota (historically 100 recipients/day); check the live [Apps Script quotas](https://developers.google.com/apps-script/guides/services/quotas) for the current limit on the account. The public web-app URL must be protected by a high-entropy token; never store the token in browser code or commit it to Git.
+
+### Resend alternative
+
+Set `RESEND_API_KEY` and `BOLKE_EMAIL_FROM` to use Resend. Normal delivery requires a verified sender domain; its shared test sender is not for arbitrary public recipients.
 
 ## Privacy, safety and capability boundaries
 
