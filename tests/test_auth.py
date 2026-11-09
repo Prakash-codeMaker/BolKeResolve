@@ -382,6 +382,7 @@ class AuthenticationIsolationTests(unittest.TestCase):
         self.assertTrue(capability["configured"])
         self.assertTrue(capability["resend_api_configured"])
         self.assertFalse(capability["smtp_configured"])
+        self.assertEqual(capability["provider"], "resend")
 
     def test_resend_email_uses_https_api_and_does_not_require_smtp(self):
         response = unittest.mock.MagicMock()
