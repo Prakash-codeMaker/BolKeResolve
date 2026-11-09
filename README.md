@@ -56,7 +56,7 @@ People often have the information they need, but it is scattered—and it is not
 | **Evidence workspace** | Case-linked files, previews, metadata, extraction review, provenance labels and relationships between evidence and claims. |
 | **Case timeline** | A chronological history of conversation turns, user-confirmed facts, support contacts, follow-ups and case events. |
 | **Resolution Passport** | Structured JSON and printable case summary, plus ZIP exports containing selected case records and original evidence. |
-| **Accounts** | Sign-up, sign-in, sessions, account-scoped cases, email verification and password recovery when SMTP is configured. |
+| **Accounts** | Sign-up, sign-in, sessions, account-scoped cases, email verification and password recovery when Resend API or SMTP delivery is configured. |
 
 ### See the product
 
