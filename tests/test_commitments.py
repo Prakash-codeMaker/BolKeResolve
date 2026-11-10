@@ -7,11 +7,12 @@ identity or actions.
 from __future__ import annotations
 
 import unittest
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 from fastapi.testclient import TestClient
 
 from backend import main
-from backend.commitments import extract_commitment_candidate, evaluate_commitment
+from backend.commitments import extract_commitment_candidate, evaluate_commitment, add_business_days
 
 
 STATEMENT = (
@@ -294,10 +295,11 @@ class CommitmentApiTests(unittest.TestCase):
             "event_text": "Tracking page reviewed by user; return scan shown on this date.",
             "relation": "triggers",
             "evidence_status": "document_reviewed_by_user",
-            "event_date_confirmed": "2026-10-29",
+            "event_date_confirmed": datetime.now(ZoneInfo("Asia/Kolkata")).date().isoformat(),
         })
         self.assertEqual(with_date.status_code, 201, with_date.text)
-        self.assertEqual(with_date.json()["evaluation"]["estimated_due_date"]["latest"], "2026-11-05")
+        trigger_date = datetime.now(ZoneInfo("Asia/Kolkata")).date()
+        self.assertEqual(with_date.json()["evaluation"]["estimated_due_date"]["latest"], add_business_days(trigger_date, 5).isoformat())
         self.assertEqual(with_date.json()["evaluation"]["status"], "clock_running")
         self.assertFalse(with_date.json()["source_authenticity_verified"])
         self.assertEqual(len(with_date.json()["events"]), 3)
