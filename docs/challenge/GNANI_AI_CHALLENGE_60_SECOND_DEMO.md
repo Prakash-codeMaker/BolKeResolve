@@ -46,6 +46,20 @@ If judges ask for more detail, show the reply-aware follow-through after the 60-
 
 Do not include a real customer support message or personal/financial details. Do not imply that BolKeResolve verified a bank account, filed a complaint, or used Gnani AI to classify the support reply. Only attribute Prisma to the actual live transcription shown in the video.
 
+## Optional 2–3 minute Promise-to-Proof walkthrough
+
+Use this after the core voice-to-case demo. It showcases the existing commitment reconciliation engine without implying that a bank or merchant was contacted.
+
+1. Open a **synthetic refund case** and go to its **Prep** tab, then expand **Commitments & conditions**.
+2. Click **Load fictional ₹850 refund example**. The app previews this support-chat statement: “We will initiate your ₹850 refund within five business days from today.”
+3. Inspect the candidate: refund initiation, ₹850, five business days and a statement date of **20 October 2026**. The source label identifies it as synthetic. Confirm that no condition was invented and the clock starts from the statement date.
+4. Read the estimate: five working days after 20 October gives **27 October 2026**, excluding weekends only. Since this walkthrough is dated **10 November 2026**, the app should say **“The stated period may have passed”**. This is an estimate, not a legal deadline; Indian public holidays and company-specific calendars are not checked.
+5. Check the review box and save the commitment. Show the preserved source excerpt, amount, date, estimate and current interpretation.
+6. Expand **Add a later reply or proof** and click **Load fictional 10 Nov follow-up note**. Review the prefilled report, keep its relation as **“I'm not sure yet”**, and record the update. Show that it is labelled **user-reported**, not independently verified.
+7. Open **Change history** and the Resolution Passport export. Point out that the original promise and the later report remain separate entries.
+
+The example is deliberately synthetic. It does not look up a UPI transaction, inspect a bank account, verify the speaker or prove that a refund did or did not arrive. The follow-up is a user report; a message saying a refund was initiated is not proof of credit.
+
 ## Optional advanced feature walkthrough — commitment reconciliation
 
 **Do not add this to the 60-second submission clip until you have completed local browser/mobile smoke testing and can reproduce the sequence reliably.** It may work better as an additional 2–3 minute technical walkthrough.
