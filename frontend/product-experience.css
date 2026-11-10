@@ -1459,3 +1459,20 @@ textarea:focus, input:focus, select:focus {
     scroll-snap-type: none !important;
   }
 }
+
+
+/* The legacy :has() carousel selector is deliberately superseded on phones. */
+@media (max-width: 640px) {
+  #howItWorks .home-how-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-flow: row !important;
+    grid-auto-columns: auto !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+  }
+  #howItWorks .home-how-card-visual {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
