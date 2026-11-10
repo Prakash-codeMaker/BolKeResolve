@@ -10,7 +10,7 @@
 
 ### [📄 READ THE ONE-PAGE SOLUTION PITCH →](SOLUTION_PITCH.md)
 
-[**Open the live application →**](https://bolkeresolve.vercel.app) · [View the 2–3 minute demo walkthrough](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
+[**Open the live application (Vercel) →**](https://bolkeresolve.vercel.app) · [Backend health check (Render) →](https://bolkeresolve.onrender.com/api/health) · [View the 2–3 minute demo walkthrough](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
 
 ---
 
@@ -199,8 +199,8 @@ See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for the latest recorded
 
 The recommended hosting split for the current storage architecture is:
 
-- **Vercel:** static frontend from `frontend/`.
-- **Render:** FastAPI backend with the persistent disk used for SQLite and uploaded evidence.
+- **Vercel frontend:** [Open the live application](https://bolkeresolve.vercel.app) — static frontend served from `frontend/`.
+- **Render backend:** [Open the FastAPI service](https://bolkeresolve.onrender.com) · [Check API health](https://bolkeresolve.onrender.com/api/health) — backend service with the persistent disk used for SQLite and uploaded evidence.
 - **Vercel rewrite:** same-origin `/api/*` requests are forwarded to the Render service.
 
 Do not deploy the current SQLite/local-file backend as a Vercel Function and expect its filesystem to persist.
