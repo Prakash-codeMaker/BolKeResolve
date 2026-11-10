@@ -16,6 +16,10 @@
     <img src="https://img.shields.io/badge/status-MVP%20%2F%20active%20development-d5a33d?style=for-the-badge" alt="MVP in active development" />
   </p>
   <p>
+    <a href="docs/challenge/SOLUTION_PITCH.md">Gnani Challenge: One-page Solution Pitch</a> ·
+    <a href="docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md">Challenge Demo Walkthrough</a>
+  </p>
+  <p>
     <a href="#how-it-works">How it works</a> ·
     <a href="#product-capabilities">Capabilities</a> ·
     <a href="#run-locally">Run locally</a> ·
