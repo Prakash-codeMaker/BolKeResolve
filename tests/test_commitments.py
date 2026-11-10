@@ -7,11 +7,12 @@ identity or actions.
 from __future__ import annotations
 
 import unittest
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 from fastapi.testclient import TestClient
 
 from backend import main
-from backend.commitments import extract_commitment_candidate, evaluate_commitment
+from backend.commitments import extract_commitment_candidate, evaluate_commitment, add_business_days
 
 
 STATEMENT = (
@@ -170,6 +171,18 @@ class CommitmentExtractionTests(unittest.TestCase):
         self.assertIsNone(evaluation["estimated_due_date"])
         self.assertIn("hours-level", evaluation["next_action"])
 
+    def test_five_business_day_refund_promise_from_october_twentieth_may_have_passed(self):
+        commitment = make_commitment_candidate(
+            "We will initiate your ₹850 refund within 5 business days from today."
+        )
+        commitment["statement_date"] = "2026-10-20"
+        commitment["trigger_type"] = "statement_date"
+        evaluation = evaluate_commitment(commitment, [], today=date(2026, 11, 10))
+        self.assertEqual(evaluation["estimated_due_date"], {"earliest": "2026-10-27", "latest": "2026-10-27"})
+        self.assertEqual(evaluation["status"], "stated_period_may_have_passed")
+        self.assertIn("not a legal deadline", evaluation["due_date_note"])
+        self.assertIn("Check the original source", evaluation["next_action"])
+
 
 class CommitmentApiTests(unittest.TestCase):
     def setUp(self):
@@ -282,10 +295,11 @@ class CommitmentApiTests(unittest.TestCase):
             "event_text": "Tracking page reviewed by user; return scan shown on this date.",
             "relation": "triggers",
             "evidence_status": "document_reviewed_by_user",
-            "event_date_confirmed": "2026-10-29",
+            "event_date_confirmed": datetime.now(ZoneInfo("Asia/Kolkata")).date().isoformat(),
         })
         self.assertEqual(with_date.status_code, 201, with_date.text)
-        self.assertEqual(with_date.json()["evaluation"]["estimated_due_date"]["latest"], "2026-11-05")
+        trigger_date = datetime.now(ZoneInfo("Asia/Kolkata")).date()
+        self.assertEqual(with_date.json()["evaluation"]["estimated_due_date"]["latest"], add_business_days(trigger_date, 5).isoformat())
         self.assertEqual(with_date.json()["evaluation"]["status"], "clock_running")
         self.assertFalse(with_date.json()["source_authenticity_verified"])
         self.assertEqual(len(with_date.json()["events"]), 3)
@@ -368,6 +382,43 @@ class CommitmentApiTests(unittest.TestCase):
         response = self.client.delete(f"/api/cases/{self.case_id}/commitments/{commitment_id}")
         self.assertEqual(response.status_code, 200, response.text)
         self.assertEqual(self.client.get(f"/api/cases/{self.case_id}").json()["commitments"], [])
+
+
+    def test_promise_to_proof_demo_preserves_reported_follow_up_without_marking_refund_verified(self):
+        preview = self._preview("We will initiate your ₹850 refund within 5 business days from today.")
+        self.assertEqual(preview.status_code, 200, preview.text)
+        candidate = dict(preview.json()["candidate"])
+        candidate["statement_date"] = "2026-10-20"
+        candidate["trigger_type"] = "statement_date"
+        saved = self.client.post(
+            f"/api/cases/{self.case_id}/commitments/confirm",
+            json=self._confirm_payload(candidate),
+        )
+        self.assertEqual(saved.status_code, 201, saved.text)
+        commitment_id = saved.json()["commitment_id"]
+        self.assertEqual(saved.json()["evaluation"]["estimated_due_date"]["latest"], "2026-10-27")
+        self.assertEqual(saved.json()["evaluation"]["status"], "stated_period_may_have_passed")
+
+        follow_up = self.client.post(
+            f"/api/cases/{self.case_id}/commitments/{commitment_id}/reconcile",
+            json={
+                "event_text": "Fictional user report (synthetic): I checked the account on 10 November 2026, and the ₹850 refund has not appeared.",
+                "relation": "unknown",
+                "evidence_status": "user_reported",
+                "event_date_claimed": "2026-11-10",
+            },
+        )
+        self.assertEqual(follow_up.status_code, 201, follow_up.text)
+        result = follow_up.json()
+        self.assertEqual(result["events"][-1]["evidence_status"], "user_reported")
+        self.assertEqual(result["events"][-1]["event_date_claimed"], "2026-11-10")
+        self.assertEqual(result["evaluation"]["status"], "stated_period_may_have_passed")
+        self.assertFalse(result["source_authenticity_verified"])
+        passport = self.client.get(f"/api/cases/{self.case_id}/passport.json")
+        self.assertEqual(passport.status_code, 200, passport.text)
+        exported = passport.json()["case"]["commitments"][0]
+        self.assertEqual(exported["events"][-1]["evidence_status"], "user_reported")
+        self.assertFalse(exported["source_authenticity_verified"])
 
 
 if __name__ == "__main__":
