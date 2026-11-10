@@ -1,8 +1,8 @@
 /* Public app shell only. Never cache /api responses or user/case data offline. */
-const CACHE_NAME = 'bolkeresolve-shell-v47';
+const CACHE_NAME = 'bolkeresolve-shell-v48';
 const SHELL_URLS = [
   '/', '/index.html', '/styles.css', '/design-v2.css', '/app.js', '/share-token.js',
-  '/privacy.html', '/manifest.webmanifest', '/live-room.css', '/product-foundation.css', '/blueprint-upgrade.css', '/experience-refresh.css', '/homepage-polish.css', '/live-pcm-processor.js',
+  '/privacy.html', '/manifest.webmanifest', '/live-room.css', '/product-experience.css', '/live-pcm-processor.js',
   '/assets/bolke-guide-avatar.webp', '/assets/bolke-guide.webp',
   '/assets/guide-fallback.png', '/assets/hero-fallback.jpg',
   '/assets/man-fallback.jpg', '/assets/payment-detail-fallback.jpg',
