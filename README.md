@@ -50,7 +50,7 @@
 
 **Watch first:** [BolKeResolve product demonstration](https://youtu.be/2REWdhKfT_I)  
 **Read the one-page pitch:** [SOLUTION_PITCH.md](SOLUTION_PITCH.md)  
-**Follow the submission recording:** [2–3 minute demo + 60-second cutdown](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
+**Follow the demo walkthrough guide:** [Feature-by-feature recording guide](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
 
 The intended review path is: open the live app → use a synthetic Hinglish payment complaint → review the actual transcript → inspect issue guidance → save the fictional ₹850 support commitment → record the later synthetic user-reported update separately → inspect the Resolution Passport.
 
