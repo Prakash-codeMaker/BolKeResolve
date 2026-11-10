@@ -328,7 +328,7 @@ class FrontendAssetTests(unittest.TestCase):
         js = (main.FRONTEND_DIR / "app.js").read_text(encoding="utf-8")
         html = (main.FRONTEND_DIR / "index.html").read_text(encoding="utf-8")
         css = (main.FRONTEND_DIR / "live-room.css").read_text(encoding="utf-8")
-        for marker in ("liveRoomRetryVoiceButton", "liveRoomPopulateMicDevices", "liveRoomApplyMicSettings", "liveRoomWaitForVideoFrame", socketUrl.searchParams.set('voice_profile',voiceProfile), "message.code||message.error_code"):
+        for marker in ("liveRoomRetryVoiceButton", "liveRoomPopulateMicDevices", "liveRoomApplyMicSettings", "liveRoomWaitForVideoFrame", "socketUrl.searchParams.set('voice_profile',voiceProfile)", "message.code||message.error_code"):
             with self.subTest(marker=marker):
                 self.assertIn(marker, js)
         self.assertIn('id="liveRoomMicProfile"', html)
