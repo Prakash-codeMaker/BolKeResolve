@@ -29,6 +29,19 @@
 
 ---
 
+## Gnani challenge: evaluator quick start
+
+**Start with the one-page pitch:** [SOLUTION_PITCH.md](docs/challenge/SOLUTION_PITCH.md)  
+**Follow the submission recording:** [2–3 minute demo + 60-second cutdown](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
+
+The intended review path is: open the live app → use a synthetic Hinglish payment complaint → review the actual transcript → inspect issue guidance → save the fictional ₹850 support commitment → record the later synthetic user-reported update separately → inspect the Resolution Passport.
+
+**Model attribution in the current server configuration:** Gnani Prisma v3.0 (speech-to-text) and Timbre v2.5 (text-to-speech). The Promise-to-Proof ledger and case-resolution workflow are application logic. This project does not claim Evon use.
+
+**Important boundary:** this is an MVP for organising user-provided information. It does not access bank accounts, independently verify a UPI transaction, contact merchants, move money, or automatically submit a complaint. The example case data is fictional.
+
+Before judging, test the live URL in a fresh browser and on a phone. If an account is required, use your own evaluator account; do not request or share the developer's personal credentials.
+
 ## The problem
 
 A failed UPI payment, a delayed refund or an unfamiliar charge can quickly turn into a confusing chain of screenshots, messages, reference numbers and support conversations.
