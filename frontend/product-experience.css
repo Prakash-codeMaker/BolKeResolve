@@ -1476,3 +1476,26 @@ textarea:focus, input:focus, select:focus {
     min-width: 0 !important;
   }
 }
+
+
+/* Mobile card internals: reset the former thumbnail-and-copy split layout. */
+@media (max-width: 640px) {
+  #howItWorks .home-how-card-visual {
+    display: block !important;
+    min-height: 0 !important;
+  }
+  #howItWorks .home-how-image {
+    display: block !important;
+    width: 100% !important;
+    height: 185px !important;
+  }
+  #howItWorks .home-how-card-copy {
+    width: 100% !important;
+    height: auto !important;
+    padding: 16px 17px 19px !important;
+  }
+  #howItWorks .home-trust-band .button {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
