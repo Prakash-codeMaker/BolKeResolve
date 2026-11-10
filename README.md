@@ -16,7 +16,7 @@
 
 [**Watch the full product demonstration on YouTube →**](https://youtu.be/2REWdhKfT_I)
 
-[**Watch the product demo →**](https://youtu.be/2REWdhKfT_I) · [**Open the live application (Vercel) →**](https://bolkeresolve.vercel.app) · [Backend health check (Render) →](https://bolkeresolve.onrender.com/api/health) · [Read the demo walkthrough](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
+[**Open the live application (Vercel) →**](https://bolkeresolve.vercel.app) · [Backend health check (Render) →](https://bolkeresolve.onrender.com/api/health) · [Read the demo walkthrough](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
 
 ---
 
