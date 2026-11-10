@@ -36,7 +36,7 @@
 
 The intended review path is: open the live app → use a synthetic Hinglish payment complaint → review the actual transcript → inspect issue guidance → save the fictional ₹850 support commitment → record the later synthetic user-reported update separately → inspect the Resolution Passport.
 
-**Model attribution in the current server configuration:** Gnani Prisma v3.0 (speech-to-text) and Timbre v2.5 (text-to-speech). The Promise-to-Proof ledger and case-resolution workflow are application logic. This project does not claim Evon use.
+**Model attribution:** the repository template defaults to Prisma `prisma-v3.0` (speech-to-text) and Timbre `timbre-v2.5` (text-to-speech). The public Gnani challenge page currently lists Prisma v2.5, so verify the exact successful model ID in the API/account logs before naming it in a final video. The Promise-to-Proof ledger and case-resolution workflow are application logic. This project does not claim Evon use.
 
 **Important boundary:** this is an MVP for organising user-provided information. It does not access bank accounts, independently verify a UPI transaction, contact merchants, move money, or automatically submit a complaint. The example case data is fictional.
 
