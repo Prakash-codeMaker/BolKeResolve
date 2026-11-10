@@ -1446,3 +1446,16 @@ textarea:focus, input:focus, select:focus {
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Specificity guard: the original responsive carousel uses :has(), so the
+   readable single-column mobile layout must match that selector's weight. */
+.hero { overflow-x: clip; }
+@media (max-width: 640px) {
+  .home-how-grid:has(.home-how-card-visual) {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+  }
+}
