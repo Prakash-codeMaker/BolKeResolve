@@ -382,5 +382,42 @@ class CommitmentApiTests(unittest.TestCase):
         self.assertEqual(self.client.get(f"/api/cases/{self.case_id}").json()["commitments"], [])
 
 
+    def test_promise_to_proof_demo_preserves_reported_follow_up_without_marking_refund_verified(self):
+        preview = self._preview("We will initiate your ₹850 refund within 5 business days from today.")
+        self.assertEqual(preview.status_code, 200, preview.text)
+        candidate = dict(preview.json()["candidate"])
+        candidate["statement_date"] = "2026-10-20"
+        candidate["trigger_type"] = "statement_date"
+        saved = self.client.post(
+            f"/api/cases/{self.case_id}/commitments/confirm",
+            json=self._confirm_payload(candidate),
+        )
+        self.assertEqual(saved.status_code, 201, saved.text)
+        commitment_id = saved.json()["commitment_id"]
+        self.assertEqual(saved.json()["evaluation"]["estimated_due_date"]["latest"], "2026-10-27")
+        self.assertEqual(saved.json()["evaluation"]["status"], "stated_period_may_have_passed")
+
+        follow_up = self.client.post(
+            f"/api/cases/{self.case_id}/commitments/{commitment_id}/reconcile",
+            json={
+                "event_text": "Fictional user report (synthetic): I checked the account on 10 November 2026, and the ₹850 refund has not appeared.",
+                "relation": "unknown",
+                "evidence_status": "user_reported",
+                "event_date_claimed": "2026-11-10",
+            },
+        )
+        self.assertEqual(follow_up.status_code, 201, follow_up.text)
+        result = follow_up.json()
+        self.assertEqual(result["events"][-1]["evidence_status"], "user_reported")
+        self.assertEqual(result["events"][-1]["event_date_claimed"], "2026-11-10")
+        self.assertEqual(result["evaluation"]["status"], "stated_period_may_have_passed")
+        self.assertFalse(result["source_authenticity_verified"])
+        passport = self.client.get(f"/api/cases/{self.case_id}/passport.json")
+        self.assertEqual(passport.status_code, 200, passport.text)
+        exported = passport.json()["case"]["commitments"][0]
+        self.assertEqual(exported["events"][-1]["evidence_status"], "user_reported")
+        self.assertFalse(exported["source_authenticity_verified"])
+
+
 if __name__ == "__main__":
     unittest.main()
