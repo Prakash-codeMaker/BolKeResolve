@@ -30,7 +30,7 @@ This matters because **a promise to initiate a refund is not proof that a refund
 
 ## Gnani AI integration
 
-- **Prisma v3.0 — speech-to-text:** used for spoken complaint transcription in the current server configuration.
+- **Prisma — speech-to-text:** used for spoken complaint transcription. The repository template currently defaults to `prisma-v3.0`; verify the successful live request before naming the version because the public challenge page currently lists Prisma v2.5.
 - **Timbre v2.5 — text-to-speech:** used for spoken responses/readback in the current server configuration.
 
 The case workflow, deterministic guidance, evidence relationships and Promise-to-Proof reconciliation are application logic. This submission does not claim to use Evon. Model attribution in the final video should match the exact successful calls shown during recording.
