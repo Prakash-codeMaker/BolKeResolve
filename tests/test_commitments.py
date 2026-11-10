@@ -170,6 +170,18 @@ class CommitmentExtractionTests(unittest.TestCase):
         self.assertIsNone(evaluation["estimated_due_date"])
         self.assertIn("hours-level", evaluation["next_action"])
 
+    def test_five_business_day_refund_promise_from_october_twentieth_may_have_passed(self):
+        commitment = make_commitment_candidate(
+            "We will initiate your ₹850 refund within 5 business days from today."
+        )
+        commitment["statement_date"] = "2026-10-20"
+        commitment["trigger_type"] = "statement_date"
+        evaluation = evaluate_commitment(commitment, [], today=date(2026, 11, 10))
+        self.assertEqual(evaluation["estimated_due_date"], {"earliest": "2026-10-27", "latest": "2026-10-27"})
+        self.assertEqual(evaluation["status"], "stated_period_may_have_passed")
+        self.assertIn("not a legal deadline", evaluation["due_date_note"])
+        self.assertIn("Check the original source", evaluation["next_action"])
+
 
 class CommitmentApiTests(unittest.TestCase):
     def setUp(self):
