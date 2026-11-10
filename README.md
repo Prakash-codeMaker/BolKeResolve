@@ -3,6 +3,17 @@
   Product overview, workflow, setup and honest capability boundaries.
 -->
 
+<!-- Evaluator entry point: keep the one-page pitch visible above the fold. -->
+# 🚀 START HERE — ONE-PAGE SOLUTION PITCH
+
+**New to BolKeResolve?** Read the complete solution pitch first. It explains the problem, product, Gnani AI integration, Promise-to-Proof differentiator and trust boundaries in under 400 words.
+
+### [📄 READ THE ONE-PAGE SOLUTION PITCH →](SOLUTION_PITCH.md)
+
+[**Open the live application →**](https://bolkeresolve.vercel.app) · [View the 2–3 minute demo walkthrough](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
+
+---
+
 <div align="center">
   <img src="frontend/assets/bolkeresolve-icon-512.png" alt="BolKeResolve logo" width="88" height="88" />
   <h1>BolKeResolve</h1>
@@ -16,7 +27,7 @@
     <img src="https://img.shields.io/badge/status-MVP%20%2F%20active%20development-d5a33d?style=for-the-badge" alt="MVP in active development" />
   </p>
   <p>
-    <a href="docs/challenge/SOLUTION_PITCH.md">Gnani Challenge: One-page Solution Pitch</a> ·
+    <a href="SOLUTION_PITCH.md"><strong>START HERE: Read the One-page Solution Pitch →</strong></a> ·
     <a href="docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md">Challenge Demo Walkthrough</a>
   </p>
   <p>
@@ -31,7 +42,7 @@
 
 ## Gnani challenge: evaluator quick start
 
-**Start with the one-page pitch:** [SOLUTION_PITCH.md](docs/challenge/SOLUTION_PITCH.md)  
+**Start with the one-page pitch:** [SOLUTION_PITCH.md](SOLUTION_PITCH.md)  
 **Follow the submission recording:** [2–3 minute demo + 60-second cutdown](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
 
 The intended review path is: open the live app → use a synthetic Hinglish payment complaint → review the actual transcript → inspect issue guidance → save the fictional ₹850 support commitment → record the later synthetic user-reported update separately → inspect the Resolution Passport.
