@@ -10,7 +10,13 @@
 
 ### [📄 READ THE ONE-PAGE SOLUTION PITCH →](SOLUTION_PITCH.md)
 
-[**Open the live application (Vercel) →**](https://bolkeresolve.vercel.app) · [Backend health check (Render) →](https://bolkeresolve.onrender.com/api/health) · [View the 2–3 minute demo walkthrough](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
+### Product demonstration
+
+[![Watch the BolKeResolve product walkthrough](https://img.youtube.com/vi/2REWdhKfT_I/hqdefault.jpg)](https://youtu.be/2REWdhKfT_I)
+
+[**Watch the full product demonstration on YouTube →**](https://youtu.be/2REWdhKfT_I)
+
+[**Watch the product demo →**](https://youtu.be/2REWdhKfT_I) · [**Open the live application (Vercel) →**](https://bolkeresolve.vercel.app) · [Backend health check (Render) →](https://bolkeresolve.onrender.com/api/health) · [Read the demo walkthrough](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
 
 ---
 
@@ -42,7 +48,8 @@
 
 ## Gnani challenge: evaluator quick start
 
-**Start with the one-page pitch:** [SOLUTION_PITCH.md](SOLUTION_PITCH.md)  
+**Watch first:** [BolKeResolve product demonstration](https://youtu.be/2REWdhKfT_I)  
+**Read the one-page pitch:** [SOLUTION_PITCH.md](SOLUTION_PITCH.md)  
 **Follow the submission recording:** [2–3 minute demo + 60-second cutdown](docs/challenge/GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
 
 The intended review path is: open the live app → use a synthetic Hinglish payment complaint → review the actual transcript → inspect issue guidance → save the fictional ₹850 support commitment → record the later synthetic user-reported update separately → inspect the Resolution Passport.
