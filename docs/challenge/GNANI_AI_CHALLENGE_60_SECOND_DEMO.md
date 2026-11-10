@@ -1,73 +1,69 @@
-# 60-second public demo: BolKeResolve
+# Public submission demo: 2–3 minute walkthrough + 60-second cutdown
 
-Goal: make the problem, the actual Gnani model integration, and the useful outcome undeniable in one minute. Record the working app—not a slide deck. Use synthetic case details only.
+The Microsoft submission form asks for a **2–3 minute demo of the build**. The challenge also lists a 60-second Demo Day award category. Record the 2–3 minute walkthrough for the form; make a separate 60-second edit for the award. Do not try to squeeze the whole case workflow into one minute.
 
-## Shot-by-shot plan
+## The story
 
-**0–5s — The hook**  
-On screen: `A failed payment shouldn't mean a confusing support journey.`  
-Say: “People often explain a payment problem in the language they use every day. BolKeResolve turns that story into a case they can act on.”
+**BolKeResolve — Voice-to-Proof Consumer Resolution Workspace**
 
-**5–18s — Real code-mixed voice**  
-Show the live app's voice recorder and say naturally, in one take:  
-`Mere ₹850 UPI se kat gaye, app failed dikha raha hai, aur saamne wale ko paise nahi mile.`  
-Stop recording. Keep the actual response wait in the cut only if the transcription really completed. Show `Gnani AI Prisma v2.5` attribution and the transcript returned from the live API. Do not use a typed substitute while implying it was transcribed.
+A message saying “refund initiated” is not proof that money was credited. BolKeResolve helps a user preserve the issue, supporting material, original support promise and later updates as one traceable case.
 
-**18–28s — Review, don't blindly trust AI**  
-Show the editable transcript and the suggested issue/amount. Say: “Prisma gives us the words; the user still reviews the transcript and confirms the facts. A spoken claim is not a bank verification.” Correct one field only if needed.
+## Recommended 2:40 submission storyboard
 
-**28–42s — From words to a useful action**  
-Show the scenario-specific next step, official-source link and missing-detail prompt. Say: “The resolution logic distinguishes the payment scenario and points to the relevant official route. It doesn't invent a bank status or promise a refund.”
+| Time | Screen and action | Narration |
+|---|---|---|
+| 0:00–0:15 | Show the live application and title. State the problem. | “A failed payment or delayed refund leaves screenshots, reference numbers and support replies scattered. A refund promise is not proof of credit.” |
+| 0:15–0:48 | Open a synthetic case and use the microphone. Say: “Mere ₹850 UPI se kat gaye, app failed dikha raha hai, aur saamne wale ko paise nahi mile.” Show the actual returned transcript. | “I can explain the issue in Hinglish. Gnani Prisma converts speech into text; the user still reviews the words and details.” |
+| 0:48–1:10 | Review the transcript and key details. Show missing information clearly. | “The transcript is not bank verification. I can correct it, and unknown fields are not invented.” |
+| 1:10–1:35 | Show issue-specific guidance, evidence checklist and official source link. | “The case now has a next step and a place for supporting records. The application does not query my bank or contact a merchant.” |
+| 1:35–2:05 | In the synthetic refund case, open **Commitments & Conditions**. Load the fictional ₹850 refund example. Review source wording, amount and five-business-day timeframe, then save. | “Here is the promise as stated. BolKeResolve preserves the wording, amount and timeframe rather than treating it as a successful refund.” |
+| 2:05–2:25 | Load the fictional 10 November follow-up note. Review it, keep the relation as “I’m not sure yet”, record it, and show history. | “The later update is separate and labelled user-reported. It does not erase the original promise or claim independent verification.” |
+| 2:25–2:40 | Open Resolution Passport/export view and show the title/end card with app and repository. | “The user keeps a portable case record: what was said, what evidence exists and what still needs checking.” |
 
-**42–53s — Reply changes the next move**  
-For a pre-prepared fictional case (or only if the click path stays clear), review and confirm the synthetic reply: “Your refund has been initiated. Please allow 5 business days.” Show the main action change to getting the reference and checking actual credit. Say: “A reply changes the next step—but a message is not proof that money arrived.” If this cannot fit cleanly or it requires a cut that hides the actual flow, use this section in the longer technical walkthrough instead.
+## Exact model attribution
 
-**53–60s — Close with a truthful attribution**  
-Show project title and `Built with Gnani AI Prisma v2.5` (add Timbre v2.5 only if you made a live successful TTS call on camera). Say: “BolKeResolve: your next correct step, and the case stays with you.”
+The current repository `.env.example` configures:
+- **Prisma v3.0** for speech-to-text.
+- **Timbre v2.5** for text-to-speech.
 
-## Recording rules
+Only say a model was used in the recorded flow when its successful live API response is shown or otherwise verified for that recording. The application's case guidance, Promise-to-Proof reconciliation and export logic are application features; do not attribute them to Evon. Keep model IDs consistent in the video, README, pitch and public post.
 
-- Record the real app after setting a valid `GNANI_API_KEY` on the server. Never show the key or `.env`.
-- Use synthetic data (₹850 is fictional). Do not include real phone numbers, bank identifiers, Aadhaar/PAN, private messages or real recordings.
-- Prefer one unbroken screen recording with voice narration. Add captions for accessibility; do not edit a failure to look like a successful API call.
-- Do not show a fake “refund successful” state. If a provider call fails, fix it and rerecord.
-- If a real TTS call is not verified, do not claim Timbre works live in the video; the code adapter alone is not evidence.
-- Keep a longer 2–3 minute walkthrough available for technical questions, even if posting the 60-second cut.
+## Recording checklist
 
-## Optional 2–3 minute technical walkthrough (not the competition's 60-second cut)
+- Record the real deployed application, not a slide deck or prototype substitute.
+- Use a real microphone interaction and keep the actual transcript response in the recording. Do not paste a transcript while implying it came from the microphone.
+- Use synthetic case details only: the ₹850 example and later follow-up are fictional.
+- Never show an API key, `.env` file, personal bank/UPI identifier, phone number, Aadhaar/PAN, private support message or another person's data.
+- Keep transcript and UI text readable; add accurate captions.
+- Do not edit a failed request to look successful or show a fake “refund credited” state.
+- Clearly distinguish user-reported updates from independently verified facts.
+- If spoken TTS is not played live in the recording, do not claim that the video proves a live Timbre call.
+- Test the finished public video link in a fresh browser profile before submitting it.
 
-If judges ask for more detail, show the reply-aware follow-through after the 60-second story:
+## 60-second cutdown for Demo Day Drop
 
-1. Open a saved fictional case and expand **Understand a support reply**.
-2. Paste a safe synthetic response such as “Your refund has been initiated. Please allow 5 business days.”
-3. Click **Review reply**. Show the classification and next step; point out that it is a conservative rule-based interpretation, not proof of credit.
-4. Confirm saving. Show the timeline contains a short category/interpretation but not the pasted raw reply.
-5. Optionally export the Resolution Passport and show that source/provenance labels remain present.
+- **0–5s:** “A refund promise is not proof of credit.”
+- **5–22s:** One natural Hinglish voice input and the actual returned transcript.
+- **22–35s:** Show the promise ledger preserving amount and timeframe.
+- **35–48s:** Show the later update as user-reported, separate from the original promise.
+- **48–60s:** Show Resolution Passport and the line: “BolKeResolve — Speak the issue. Keep the proof. Know the next step.”
 
-Do not include a real customer support message or personal/financial details. Do not imply that BolKeResolve verified a bank account, filed a complaint, or used Gnani AI to classify the support reply. Only attribute Prisma to the actual live transcription shown in the video.
+Do not turn the cutdown into a fast montage that hides the real interaction. It should still show actual application behaviour.
 
-## Optional 2–3 minute Promise-to-Proof walkthrough
+## Optional deeper evaluator walkthrough
 
-Use this after the core voice-to-case demo. It showcases the existing commitment reconciliation engine without implying that a bank or merchant was contacted.
+After the submission video, be ready to demonstrate:
+1. A conditional commitment whose clock must not start until its stated trigger is reviewed.
+2. A missing amount or date that remains blank and triggers a clarification.
+3. Contradictory support statements that are both preserved and flagged for review.
+4. A user marking a case resolved without the app claiming independent bank verification.
+5. The exported Resolution Passport, including provenance labels and evidence index.
 
-1. Open a **synthetic refund case** and go to its **Prep** tab, then expand **Commitments & conditions**.
-2. Click **Load fictional ₹850 refund example**. The app previews this support-chat statement: “We will initiate your ₹850 refund within five business days from today.”
-3. Inspect the candidate: refund initiation, ₹850, five business days and a statement date of **20 October 2026**. The source label identifies it as synthetic. Confirm that no condition was invented and the clock starts from the statement date.
-4. Read the estimate: five working days after 20 October gives **27 October 2026**, excluding weekends only. Since this walkthrough is dated **10 November 2026**, the app should say **“The stated period may have passed”**. This is an estimate, not a legal deadline; Indian public holidays and company-specific calendars are not checked.
-5. Check the review box and save the commitment. Show the preserved source excerpt, amount, date, estimate and current interpretation.
-6. Expand **Add a later reply or proof** and click **Load fictional 10 Nov follow-up note**. Review the prefilled report, keep its relation as **“I'm not sure yet”**, and record the update. Show that it is labelled **user-reported**, not independently verified.
-7. Open **Change history** and the Resolution Passport export. Point out that the original promise and the later report remain separate entries.
+## Evaluator access check
 
-The example is deliberately synthetic. It does not look up a UPI transaction, inspect a bank account, verify the speaker or prove that a refund did or did not arrive. The follow-up is a user report; a message saying a refund was initiated is not proof of credit.
+1. Open the live link in a fresh incognito/private browser and on a phone.
+2. Confirm a new evaluator can reach the demo without access to your personal account or local machine.
+3. If sign-in is required, do not share your personal password. Use an explicitly approved synthetic evaluator account or ask the organisers which access route they prefer.
+4. Confirm demo data is synthetic and no private case is visible to another account.
 
-## Optional advanced feature walkthrough — commitment reconciliation
-
-**Do not add this to the 60-second submission clip until you have completed local browser/mobile smoke testing and can reproduce the sequence reliably.** It may work better as an additional 2–3 minute technical walkthrough.
-
-Using synthetic data, open a case and expand **Commitments & conditions**. Paste:
-
-`Once the return is scanned at the warehouse, we will initiate the ₹1,200 refund within five business days.`
-
-Show the candidate, correct its condition/action/timeframe if needed, check the explicit confirmation box, then save it. Point out that the clock is initially unset. Add a reviewed trigger event dated 29 October 2026 and show the estimated date (5 November 2026 with the current weekend-only business-day approximation). Then record a contradictory update and show that both statements stay in the case history and the state becomes “Conflicting information to review.”
-
-Explain the boundaries accurately: extraction is deterministic/rule-based; audio transcription uses the configured Gnani route if used live; the app does not verify the speaker, the company, any source file, or the refund. Business-day calculations exclude weekends only, not public holidays/company-specific calendars; the date is an estimate, not a legal deadline.
+The live app is an MVP. Do not claim production readiness, bank verification, automatic grievance filing or full offline case access unless those capabilities have been independently implemented and tested.
