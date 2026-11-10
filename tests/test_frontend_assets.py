@@ -794,3 +794,34 @@ class CommitmentReconciliationFrontendTests(unittest.TestCase):
         self.assertIn("heroPhotoPause?.addEventListener('click'", js)
         self.assertIn('.hero-photo-pause { display: none !important; }', css)
         self.assertIn("'/experience-refresh.css'", (main.FRONTEND_DIR / "sw.js").read_text(encoding="utf-8"))
+
+
+class PromiseToProofDemoFrontendTests(unittest.TestCase):
+    def test_synthetic_refund_walkthrough_is_opt_in_and_never_claims_external_verification(self):
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1]
+        js = (root / "frontend" / "app.js").read_text(encoding="utf-8")
+        for marker in (
+            'data-action="load-promise-proof-demo"',
+            "async function loadPromiseProofDemo(button)",
+            "Fictional support-chat example (synthetic · 20 Oct 2026)",
+            "sourceText.value='We will initiate your ₹850 refund within five business days from today.'",
+            "setValue('#commitmentPreviewStatementDate','2026-10-20')",
+            "function loadPromiseProofFollowup(button)",
+            "Fictional user report (synthetic): I checked the account on 10 November 2026",
+            "data-action=\"load-promise-proof-followup\"",
+            "evidence_status:'user_reported'",
+            "Source date stated as",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, js)
+
+    def test_promise_to_proof_walkthrough_documents_date_and_claim_boundaries(self):
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1]
+        guide = (root / "docs" / "challenge" / "GNANI_AI_CHALLENGE_60_SECOND_DEMO.md").read_text(encoding="utf-8")
+        self.assertIn("Promise-to-Proof walkthrough", guide)
+        self.assertIn("20 October 2026", guide)
+        self.assertIn("27 October 2026", guide)
+        self.assertIn("user-reported", guide)
+        self.assertIn("does not look up a UPI transaction", guide)
