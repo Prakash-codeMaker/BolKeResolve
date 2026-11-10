@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_vercel_serves_static_frontend_and_proxies_api_to_backend():
+def test_vercel_serves_static_frontend_and_proxies_ticket_rest_api_before_direct_render_websocket():
     config = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
     assert config["outputDirectory"] == "frontend"
     assert (ROOT / "frontend" / "index.html").is_file()
@@ -15,11 +15,15 @@ def test_vercel_serves_static_frontend_and_proxies_api_to_backend():
     assert api_rewrite is not None
     assert api_rewrite["destination"].startswith("https://")
     assert api_rewrite["destination"].endswith("/api/:path*")
-    # Both REST endpoints and the live-room WebSocket use the same /api namespace.
+    # Obtain a one-time ticket through the same-origin REST proxy, then connect
+    # directly to Render because Vercel rewrites do not reliably proxy WS upgrades.
     app_js = (ROOT / "frontend" / "app.js").read_text(encoding="utf-8")
-    assert "${protocol}//${location.host}/api/live-room/voice" in app_js
-    assert "/api/live-room/voice".startswith(api_rewrite["source"].replace(":path*", ""))
-
+    backend = (ROOT / "backend" / "main.py").read_text(encoding="utf-8")
+    assert "api('/api/live-room/voice-ticket'" in app_js
+    assert "new URL('wss://bolkeresolve.onrender.com/api/live-room/voice')" in app_js
+    assert "socketUrl.searchParams.set('ticket',authorization.ticket)" in app_js
+    assert '@app.post("/api/live-room/voice-ticket")' in backend
+    assert "/api/live-room/voice-ticket".startswith(api_rewrite["source"].replace(":path*", ""))
 
 def test_vercel_does_not_enable_cdn_caching_for_private_api_responses():
     config = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
