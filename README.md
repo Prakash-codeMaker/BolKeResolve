@@ -55,6 +55,7 @@ People often have the information they need, but it is scattered—and it is not
 | **Issue guidance** | Deterministic first-pass playbooks for common failed-payment, pending-payment, delayed-refund, duplicate-charge and related issues. |
 | **Evidence workspace** | Case-linked files, previews, metadata, extraction review, provenance labels and relationships between evidence and claims. |
 | **Case timeline** | A chronological history of conversation turns, user-confirmed facts, support contacts, follow-ups and case events. |
+| **Promise-to-Proof ledger** | Review a support statement, preserve its source wording, track conditions and estimated timeframes, and reconcile later user-reported updates without overwriting earlier history. |
 | **Resolution Passport** | Structured JSON and printable case summary, plus ZIP exports containing selected case records and original evidence. |
 | **Accounts** | Sign-up, sign-in, sessions, account-scoped cases, email verification and password recovery when Resend API or SMTP delivery is configured. |
 
