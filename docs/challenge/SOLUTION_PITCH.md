@@ -1,48 +1,59 @@
 # BolKeResolve — Voice-to-Proof Consumer Resolution Workspace
 
 **Great Indian AI Internship Challenge 2026**  
-**Tagline:** Your words. Your evidence. Your next move.
+**Primary category fit:** Real Deal  
+**Additional strength:** Mixed Vibes (Hinglish voice interaction)  
+**Tagline:** Speak the issue. Keep the proof. Know the next step.
 
-## Problem
+## The problem
 
-A failed UPI payment, pending transfer or delayed refund can leave people juggling screenshots, SMS messages, reference numbers and support conversations. When stressed, many users would rather explain the issue aloud—in familiar Hinglish—than complete a long English form. The details then remain scattered and the next step is unclear.
+A failed UPI payment, pending transfer or delayed refund can leave someone juggling screenshots, reference numbers, SMS messages and support replies. The person may receive a message saying a refund was initiated, but that message does not establish that the money was actually credited. Important facts become fragmented across conversations and files, and the next step is often unclear.
 
-## Solution
+## The solution
 
-**BolKeResolve turns a spoken consumer complaint into a user-reviewed, evidence-linked case.** It brings the conversation, supporting files, timeline, support commitments and suggested next steps into one portable record.
+**BolKeResolve turns a spoken or typed consumer complaint into a user-reviewed, evidence-aware case.** It brings the user's account, supporting records, issue-specific guidance, support commitments and follow-up history into one portable workspace.
 
-## How it works
+## How the workflow works
 
-1. **Speak:** Describe the payment or refund issue naturally in Hinglish or text.
-2. **Review:** Gnani speech-to-text produces a transcript; the user checks and confirms key details.
-3. **Organise:** The app structures the case, keeps evidence with its source, provides issue-specific next-step guidance and records support commitments.
-4. **Follow through:** The Promise-to-Proof ledger preserves the original wording, amount, condition and timeframe of a support promise. Later updates are recorded separately, with user-reported information clearly distinguished from independently verified facts.
-5. **Take it forward:** Export a Resolution Passport with the case summary, timeline, evidence index and file hashes.
+1. **Speak or type.** Describe the issue naturally, including in Hinglish. The voice intake uses Gnani speech services when configured.
+2. **Review the transcript and facts.** The user checks or corrects the transcript and key case details. Missing values remain missing rather than being guessed.
+3. **Organise the case.** The application keeps evidence with source/provenance information, shows relevant next-step guidance and helps prepare a support message.
+4. **Track the promise.** The Promise-to-Proof ledger preserves the original wording of a support commitment, amount, condition and stated timeframe.
+5. **Record what happened next.** A later reply, contradiction or user report becomes a separate event. It does not overwrite the original statement or silently become independently verified fact.
+6. **Take the record forward.** The Resolution Passport exports a structured summary, timeline, user-confirmed facts and evidence index for the user's next interaction.
+
+## The differentiator: Promise-to-Proof
+
+A support message can say, “We will initiate your ₹850 refund within five business days.” BolKeResolve lets the user review that statement and save its amount and timeframe. A later report is recorded separately, with its provenance visible.
+
+This matters because **a promise to initiate a refund is not proof that a refund was credited**. The case history should preserve that distinction rather than marking a case resolved simply because a message sounded reassuring.
 
 ## Gnani AI integration
 
-- **Gnani Prisma v3.0 — Speech-to-text (STT):** powers spoken complaint transcription.
-- **Gnani Timbre v2.5 — Text-to-speech (TTS):** powers spoken responses.
+- **Prisma v3.0 — speech-to-text:** used for spoken complaint transcription in the current server configuration.
+- **Timbre v2.5 — text-to-speech:** used for spoken responses/readback in the current server configuration.
 
-The Promise-to-Proof extraction, estimated-date calculations and reconciliation are application logic. This project does not claim to use Evon.
+The case workflow, deterministic guidance, evidence relationships and Promise-to-Proof reconciliation are application logic. This submission does not claim to use Evon. Model attribution in the final video should match the exact successful calls shown during recording.
 
 ## What makes it different
 
-- Voice-first intake for everyday Indian payment and refund problems.
-- A case workflow rather than a generic chatbot response.
-- Original support statements and later updates remain traceable instead of being overwritten.
-- Source-aware records distinguish user statements, extracted suggestions, user-confirmed facts and independently verified facts.
-- A portable case export helps the user continue with the relevant support channel.
+- A case workflow rather than a generic voice chatbot.
+- A traceable link between statements, evidence, commitments and later updates.
+- Explicit distinction between user-reported information, user-confirmed facts and independently verified facts.
+- Preservation of the original support statement instead of silently overwriting it.
+- A portable case record that can be taken to the relevant support channel.
 
 ## Trust boundaries
 
-BolKeResolve organises user-provided information and suggests next steps. It does **not** access bank accounts, verify UPI transactions, contact merchants, initiate payments or refunds, or claim that a refund has been independently confirmed. File hashes can help detect file changes; they do not prove who created a file or whether its contents are true. Demo data is synthetic.
+BolKeResolve organises user-provided information and suggests next steps. It does **not** access bank accounts, independently verify UPI transactions, contact merchants, initiate payments or refunds, or automatically file complaints. A user-reported outcome remains labelled as user-reported. File hashes can help detect changes to exported files; they do not prove authorship, origin or truth. The demo uses synthetic case details.
 
-## Implementation and links
+## The evaluator's path
+
+Open the live application, create or open a synthetic case, speak a Hinglish payment complaint, review the actual transcript, inspect the next-step guidance, save the fictional ₹850 refund commitment, add a later synthetic user-reported update, then inspect the timeline and Resolution Passport.
 
 - **Live application:** https://bolkeresolve.vercel.app
 - **Source code:** https://github.com/Prakash-codeMaker/BolKeResolve
-- **Primary challenge fit:** Real Deal
-- **Additional strength:** Mixed Vibes (Hinglish voice interaction)
+- **2–3 minute submission demo:** publish a public video and link it in the challenge form.
+- **Demo walkthrough:** [GNANI_AI_CHALLENGE_60_SECOND_DEMO.md](GNANI_AI_CHALLENGE_60_SECOND_DEMO.md)
 
-**Demo:** The public 2–3 minute recording shows the real voice intake, transcript review, next-step guidance, Promise-to-Proof follow-up and Resolution Passport. Model attribution in the recording is limited to the Gnani API calls actually shown working.
+**A good outcome is not a confident-sounding answer. It is a case record that helps the user take the next step without losing what was said or what remains unverified.**
